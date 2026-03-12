@@ -4,6 +4,11 @@ import { toRoman } from "@/lib/taxonomy/numbering";
 const isFolder = (node: Node): node is Folder => node.type === "folder";
 const isItem = (node: Node): node is Item => node.type === "page";
 
+const withPrefix = (name: Node["name"], prefix: string): Node["name"] => {
+  if (!prefix) return name;
+  return [prefix, " ", name];
+};
+
 export const addNumberingToTree = (tree: Root): Root => {
   const cloneNode = (node: Node, ancestors: number[]): Node => {
     if (isFolder(node)) {
@@ -16,7 +21,7 @@ export const addNumberingToTree = (tree: Root): Root => {
 
       return {
         ...node,
-        name: prefix ? `${prefix} ${node.name}` : node.name,
+        name: withPrefix(node.name, prefix),
         children,
       };
     }
@@ -26,7 +31,7 @@ export const addNumberingToTree = (tree: Root): Root => {
       const prefix = buildPrefix(ancestors, depth);
       return {
         ...node,
-        name: prefix ? `${prefix} ${node.name}` : node.name,
+        name: withPrefix(node.name, prefix),
       };
     }
 

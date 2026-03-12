@@ -502,9 +502,14 @@ export function MindMapControls({
           console.error("Failed to enter fullscreen:", err);
         });
     } else {
-      document.exitFullscreen().then(() => {
-        setIsFullscreen(false);
-      });
+      void document
+        .exitFullscreen()
+        .then(() => {
+          setIsFullscreen(false);
+        })
+        .catch((err) => {
+          console.error("Failed to exit fullscreen:", err);
+        });
     }
   };
 
