@@ -1,4 +1,7 @@
+import { MindmapViewer } from "@/components/library/mindmap-viewer";
+
 export const getMDXComponents = () => ({
+  MindmapViewer,
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2 className="mt-8 text-2xl font-semibold" {...props} />
   ),

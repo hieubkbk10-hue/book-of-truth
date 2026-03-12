@@ -15,48 +15,6 @@ status: stable
 confidence: high
 source_type: synthesized
 updated_at: 2026-03-13
-mindmap_data:
-  nodeData:
-    id: "root"
-    topic: "Triết lý Book of Truth"
-    children:
-      - id: "ia"
-        topic: "IA (Information Architecture)"
-        children:
-          - id: "ia-org"
-            topic: "Tổ chức & dán nhãn"
-          - id: "ia-sign"
-            topic: "Signposting + interlinking"
-      - id: "curation"
-        topic: "Curation"
-        children:
-          - id: "curate-evidence"
-            topic: "Chọn lọc + evidence"
-          - id: "curate-meta"
-            topic: "Metadata hóa"
-          - id: "curate-conflict"
-            topic: "Không overwrite"
-      - id: "principles"
-        topic: "Nguyên tắc"
-        children:
-          - id: "principle-evidence"
-            topic: "Evidence-first"
-          - id: "principle-taxonomy"
-            topic: "Taxonomy rõ"
-          - id: "principle-indexable"
-            topic: "Indexable"
-          - id: "principle-refresh"
-            topic: "Summary/mindmap auto-refresh"
-      - id: "checklist"
-        topic: "Checklist"
-        children:
-          - id: "meta"
-            topic: "Metadata đủ"
-          - id: "oid"
-            topic: "O/I/D rõ"
-          - id: "links"
-            topic: "Liên kết & xung đột"
-  direction: 2
 ---
 
 ## Tóm tắt nhanh
@@ -64,6 +22,56 @@ mindmap_data:
 - Curation: chọn lọc, phản biện, chuẩn hóa và gắn metadata để tri thức đáng tin, dễ tra cứu.
 - Nguyên tắc cốt lõi: Evidence-first, không overwrite, taxonomy rõ ràng, note tự đứng độc lập, indexable.
 - Checklist: taxonomy + metadata đủ, có Observation/Inference/Decision, liên kết xung đột/ràng buộc, văn phong ngắn gọn.
+
+<MindmapViewer
+  data={
+    {
+      nodeData: {
+        id: "root",
+        topic: "Triết lý Book of Truth",
+        children: [
+          {
+            id: "ia",
+            topic: "IA (Information Architecture)",
+            children: [
+              { id: "ia-org", topic: "Tổ chức & dán nhãn" },
+              { id: "ia-sign", topic: "Signposting + interlinking" },
+            ],
+          },
+          {
+            id: "curation",
+            topic: "Curation",
+            children: [
+              { id: "curate-evidence", topic: "Chọn lọc + evidence" },
+              { id: "curate-meta", topic: "Metadata hóa" },
+              { id: "curate-conflict", topic: "Không overwrite" },
+            ],
+          },
+          {
+            id: "principles",
+            topic: "Nguyên tắc",
+            children: [
+              { id: "principle-evidence", topic: "Evidence-first" },
+              { id: "principle-taxonomy", topic: "Taxonomy rõ" },
+              { id: "principle-indexable", topic: "Indexable" },
+              { id: "principle-refresh", topic: "Summary/mindmap auto-refresh" },
+            ],
+          },
+          {
+            id: "checklist",
+            topic: "Checklist",
+            children: [
+              { id: "meta", topic: "Metadata đủ" },
+              { id: "oid", topic: "O/I/D rõ" },
+              { id: "links", topic: "Liên kết & xung đột" },
+            ],
+          },
+        ],
+      },
+      direction: 2,
+    }
+  }
+/>
 
 ## Nguyên tắc
 1. **IA (Information Architecture)**: Nghệ thuật tổ chức, gắn nhãn, điều hướng để người đọc tự tìm thấy tri thức (findability > tra cứu thủ công). Mọi cấu trúc đều là quyết định UX: menu, tiêu đề, interlinking.
