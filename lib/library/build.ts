@@ -3,7 +3,6 @@ import { titleCase } from "@/lib/taxonomy/format";
 import { formatDisplayOrder, toRoman } from "@/lib/taxonomy/numbering";
 import type {
   BookIndex,
-  ChapterIndex,
   LibraryIndex,
   NoteFrontmatter,
   NoteMeta,
@@ -71,11 +70,6 @@ const sortByOrderThenTitle = <T extends { order?: number; title: string }>(
     return a.title.localeCompare(b.title, "vi");
   });
 
-const propagateOrder = <T extends { order?: number }>(items: T[]) =>
-  items.map((item, index) => ({
-    ...item,
-    order: item.order ?? index + 1,
-  }));
 
 export const buildLibrary = (): LibraryIndex => {
   const pages = source.getPages();
