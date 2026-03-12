@@ -1,0 +1,64 @@
+---
+title: Triết lý Book of Truth
+summary: Bộ nguyên tắc và kiểm soát chất lượng cho việc biên tập tri thức trong Book of Truth, tập trung vào IA (Information Architecture) và curation (tuyển chọn/biên tập) có dẫn chứng và tính truy xuất.
+shelf: foundations
+book: book-of-truth
+chapter: philosophy
+order: 1
+tags: [book-of-truth, governance, curation, information-architecture]
+keywords: [information architecture, curation, taxonomy, metadata, conflicts]
+prerequisites: []
+related: []
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: high
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Tóm tắt nhanh
+- IA: cách tổ chức/định danh nội dung để người đọc tìm thấy đúng thứ họ cần.
+- Curation: chọn lọc, phản biện, chuẩn hóa và gắn metadata để tri thức đáng tin, dễ tra cứu.
+- Nguyên tắc cốt lõi: Evidence-first, không overwrite, taxonomy rõ ràng, note tự đứng độc lập, indexable.
+- Checklist: taxonomy + metadata đủ, có Observation/Inference/Decision, liên kết xung đột/ràng buộc, văn phong ngắn gọn.
+
+## Sơ đồ tư duy (outline)
+- Triết lý Book of Truth
+  - IA (Information Architecture)
+    - Tổ chức & dán nhãn nội dung
+    - Signposting + interlinking có chủ đích
+  - Curation
+    - Chọn lọc, phản biện, metadata hóa
+    - Không overwrite, dùng conflicts_with / superseded_by
+  - Nguyên tắc
+    - Evidence-first
+    - Taxonomy rõ, note đọc độc lập
+    - Indexable, summary/mindmap tái tạo khi thay đổi
+  - Checklist
+    - Metadata đủ
+    - O/I/D rõ
+    - Liên kết liên quan & xung đột
+
+## Nguyên tắc
+1. **IA (Information Architecture)**: Nghệ thuật tổ chức, gắn nhãn, điều hướng để người đọc tự tìm thấy tri thức (findability > tra cứu thủ công). Mọi cấu trúc đều là quyết định UX: menu, tiêu đề, interlinking.
+2. **Curation (Tuyển chọn & chuẩn hóa)**: Chọn lọc nội dung có evidence, phản biện, làm sạch ngôn từ, chuẩn hóa metadata để tái sử dụng và truy xuất.
+3. **Evidence-first**: Mọi kết luận phải tách Observation / Inference / Decision. Thiếu evidence phải nêu gap và cách bổ sung.
+4. **Không overwrite**: Nếu mâu thuẫn, dùng `conflicts_with` hoặc `superseded_by`; giữ lịch sử thay vì xóa ý kiến trước.
+5. **Taxonomy rõ ràng**: Xác định shelf/book/chapter trước khi viết; note phải tự đọc được (Every Page is Page One) và có bối cảnh tối thiểu.
+6. **Indexable-by-design**: Metadata đầy đủ (tags, keywords, prerequisites, related, status, confidence). Interlinking có chủ đích để dẫn đường, không nhồi link ngẫu nhiên.
+7. **Tự động cập nhật tóm tắt/mindmap**: Khi note trong cùng shelf/book/chapter đổi, regenerate "Tóm tắt nhanh" và "Sơ đồ tư duy" để người đọc luôn thấy bức tranh mới nhất.
+
+## Checklist chất lượng
+- [ ] Đặt đúng shelf=foundations, book=book-of-truth, chapter=philosophy, order điền rõ.
+- [ ] Metadata đủ: tags, keywords, prerequisites, related, status, confidence, source_type, updated_at.
+- [ ] Có phân tách Observation / Inference / Decision cho các kết luận quan trọng.
+- [ ] Có liên kết xung đột/điều chỉnh (conflicts_with hoặc superseded_by) nếu tồn tại quan điểm khác.
+- [ ] Văn phong ngắn gọn, dễ đọc; tránh lặp và biệt ngữ không cần thiết.
+- [ ] Summary + mindmap đã cập nhật sau mỗi thay đổi nội dung trong cùng shelf/book/chapter.
+
+## Ví dụ tốt
+- Note về "Pattern X": có metadata đầy đủ, phần O/I/D rõ, liên kết tới note liên quan và đánh dấu `conflicts_with` khi có quan điểm khác; có summary/mindmap cập nhật.
+
+## Phản ví dụ / Hiểu lầm
+- Ghi chú dán thẳng nguyên văn chat chưa gắn metadata; không có O/I/D; không đặt vào taxonomy; không cập nhật summary/mindmap khi sửa nội dung liên quan.
