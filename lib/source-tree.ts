@@ -7,13 +7,11 @@ const isItem = (node: Node): node is Item => node.type === "page";
 export const addNumberingToTree = (tree: Root): Root => {
   const cloneNode = (node: Node, ancestors: number[]): Node => {
     if (isFolder(node)) {
-      const depth = ancestors.length + 1;
-      const index = (ancestors[ancestors.length - 1] ?? 0) + 1;
-      const current = [...ancestors.slice(0, -1), index];
-      const prefix = buildPrefix(current, depth);
+      const depth = ancestors.length;
+      const prefix = buildPrefix(ancestors, depth);
 
       const children = node.children.map((child, childIdx) =>
-        cloneNode(child, [...current.slice(0, depth - 1), childIdx + 1]),
+        cloneNode(child, [...ancestors, childIdx + 1]),
       );
 
       return {
