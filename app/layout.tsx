@@ -25,11 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi">
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-zinc-50 text-zinc-950 antialiased`}
       >
-        <RootProvider>{children}</RootProvider>
+        <RootProvider theme={{ defaultTheme: "light" }}>
+          {children}
+        </RootProvider>
       </body>
     </html>
   );
