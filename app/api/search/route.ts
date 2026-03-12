@@ -3,7 +3,7 @@ import { source } from "@/lib/source";
 import { createFromSource } from "fumadocs-core/search/server";
 
 const search = createFromSource(source, {
-  language: "vi",
+  language: "english",
 });
 
 export const GET = search.GET;
