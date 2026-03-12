@@ -13,6 +13,8 @@ import {
   DocsPage,
   DocsTitle,
 } from "fumadocs-ui/layouts/docs/page";
+import { MindmapViewer } from "@/components/library/mindmap-viewer";
+import type { MindElixirData } from "mind-elixir";
 
 interface NotePageProps {
   params: Promise<{ shelf: string; book: string; chapter: string; note: string }>;
@@ -54,6 +56,7 @@ export default async function NotePage({ params }: NotePageProps) {
     title?: string;
     summary?: string;
     toc?: unknown;
+    mindmap_data?: MindElixirData;
   };
   const MDX = pageData.body;
   const noteMeta = library.notes.find(
@@ -75,6 +78,9 @@ export default async function NotePage({ params }: NotePageProps) {
         <div className="flex flex-col gap-6">
           {noteMeta ? <NoteMetaCard note={noteMeta} /> : null}
           {noteMeta?.tags.length ? <TagFilter tags={noteMeta.tags} /> : null}
+          {pageData.mindmap_data ? (
+            <MindmapViewer data={pageData.mindmap_data} />
+          ) : null}
           <article className="rounded-2xl border border-zinc-200 bg-white px-8 py-10">
             <MDX components={getMDXComponents()} />
           </article>

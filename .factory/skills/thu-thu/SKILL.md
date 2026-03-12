@@ -39,8 +39,8 @@ Nguồn tham chiếu (2026):
 4. Nếu thiếu evidence, dùng chiến lược của `docs-seeker` để tìm tài liệu tham chiếu.
 5. Viết note theo template chuẩn.
 6. Gắn metadata: tags, keywords, prerequisites, related, status, confidence.
-7. Sinh **summary + mindmap tóm tắt** (dạng bullet/outline) cho shelf/book/chapter tương ứng để đặt ở đầu mỗi đơn vị.
-8. Gắn trigger: khi note trong cùng shelf/book/chapter thay đổi, phải regenerate summary + mindmap liên quan.
+7. Sinh **summary + mindmap_data (mindmapcn)** cho shelf/book/chapter tương ứng để đặt ở đầu mỗi đơn vị.
+8. Gắn trigger: khi note trong cùng shelf/book/chapter thay đổi, phải regenerate summary + mindmap_data liên quan.
 9. Trả về ghi chú MDX hoàn chỉnh + rationale ngắn.
 
 ## Template ghi chú MDX
@@ -86,23 +86,34 @@ updated_at: YYYY-MM-DD
 ## Tóm tắt nhanh
 - ... (1–5 bullet)
 
-## Sơ đồ tư duy (outline)
-- Chủ đề trung tâm
-  - Nhánh 1
-    - Ý 1
-  - Nhánh 2
-    - Ý 2
+## Mindmap Data (mindmapcn)
+```json
+{
+  "nodeData": {
+    "id": "root",
+    "topic": "Chủ đề trung tâm",
+    "children": [
+      {
+        "id": "branch-1",
+        "topic": "Nhánh 1",
+        "children": [{ "id": "branch-1-1", "topic": "Ý 1" }]
+      }
+    ]
+  },
+  "direction": 2
+}
+```
 ```
 
 ## Quy tắc trigger cập nhật
-- Khi **thêm/sửa/xoá** note trong cùng shelf/book/chapter → **bắt buộc** regenerate "Tóm tắt nhanh" và "Sơ đồ tư duy" cho đúng phạm vi.
-- Nếu thay đổi chỉ ở level note đơn lẻ nhưng ảnh hưởng nghĩa tổng thể → cập nhật summary/mindmap ngay trong cùng output.
+- Khi **thêm/sửa/xoá** note trong cùng shelf/book/chapter → **bắt buộc** regenerate "Tóm tắt nhanh" và `mindmap_data` cho đúng phạm vi.
+- Nếu thay đổi chỉ ở level note đơn lẻ nhưng ảnh hưởng nghĩa tổng thể → cập nhật summary/mindmap_data ngay trong cùng output.
 
 ## Output format bắt buộc
 Khi hoàn thành, trả ra 3 phần:
 1. **Vị trí đề xuất** (shelf/book/chapter + lý do ngắn)
 2. **MDX hoàn chỉnh** theo template trên
-3. **Tóm tắt + mindmap** cho shelf/book/chapter bị ảnh hưởng (nếu có thay đổi)
+3. **Tóm tắt + mindmap_data (mindmapcn)** cho shelf/book/chapter bị ảnh hưởng (nếu có thay đổi)
 
 ## Checklist chất lượng
 - [ ] Phân loại đúng taxonomy
@@ -112,5 +123,6 @@ Khi hoàn thành, trả ra 3 phần:
 - [ ] Văn phong ngắn gọn, dễ hiểu
 
 ## Ghi chú vận hành
+- Mindmap **bắt buộc** theo `mindmap_data` JSON tương thích `mindmapcn` khi user nhắc tới mindmap; không fallback outline thủ công.
 - Ưu tiên dùng tinh thần `docs-seeker` khi cần tìm tài liệu bổ sung.
 - Áp dụng chuẩn viết skill theo `skill-writer` để output rõ ràng, dùng lâu dài.

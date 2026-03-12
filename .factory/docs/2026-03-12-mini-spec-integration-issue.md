@@ -1,0 +1,3 @@
+Bạn vừa phê duyệt spec trước nên tôi bắt đầu cài deps và thêm component mindmapcn (mind-elixir + snapdom + lucide + mindmap viewer + sửa note page) nhưng bạn vừa bật Spec mode lại. Tôi cần xác nhận: bạn muốn tôi dừng ở đây và chỉ trình bày kế hoạch bổ sung, hay tiếp tục triển khai nốt (update skill thu-thu, note, render mindmap) theo spec đã duyệt? Hiện code đã thêm deps và component viewer, chưa chỉnh skill và note.
+
+Đề xuất tiếp tục theo spec đã duyệt. Nếu bạn muốn dừng, tôi sẽ chỉ nộp spec bổ sung và không sửa file thêm.

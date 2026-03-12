@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",
+    "@zumer/snapdom": "^2.1.0",
     "fumadocs-core": "^16.6.16",
     "fumadocs-mdx": "^14.2.9",
     "fumadocs-ui": "^16.6.16",
+    "lucide-react": "^0.577.0",
+    "mind-elixir": "^5.9.3",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"
