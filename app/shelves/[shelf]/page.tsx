@@ -5,13 +5,14 @@ import { buildLibrary, findShelf } from "@/lib/library/build";
 import { titleCase } from "@/lib/taxonomy/format";
 
 interface ShelfPageProps {
-  params: { shelf: string };
+  params: Promise<{ shelf: string }>;
 }
 
-export default function ShelfPage({ params }: ShelfPageProps) {
+export default async function ShelfPage({ params }: ShelfPageProps) {
+  const resolvedParams = await params;
   const library = buildLibrary();
-  const shelf = findShelf(library, params.shelf);
-  const shelfTitle = shelf?.title ?? titleCase(params.shelf);
+  const shelf = findShelf(library, resolvedParams.shelf);
+  const shelfTitle = shelf?.title ?? titleCase(resolvedParams.shelf);
 
   return (
     <PageShell

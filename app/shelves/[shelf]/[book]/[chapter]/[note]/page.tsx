@@ -10,25 +10,31 @@ import { source } from "@/lib/source";
 import { titleCase } from "@/lib/taxonomy/format";
 
 interface NotePageProps {
-  params: { shelf: string; book: string; chapter: string; note: string };
+  params: Promise<{ shelf: string; book: string; chapter: string; note: string }>;
 }
 
-export default function NotePage({ params }: NotePageProps) {
-  const slugs = [params.shelf, params.book, params.chapter, params.note];
+export default async function NotePage({ params }: NotePageProps) {
+  const resolvedParams = await params;
+  const slugs = [
+    resolvedParams.shelf,
+    resolvedParams.book,
+    resolvedParams.chapter,
+    resolvedParams.note,
+  ];
   const page = source.getPage(slugs);
   const library = buildLibrary();
   const related = library.notes.filter(
     (note) =>
-      note.shelf === params.shelf &&
-      note.book === params.book &&
-      note.chapter === params.chapter &&
-      note.note !== params.note,
+      note.shelf === resolvedParams.shelf &&
+      note.book === resolvedParams.book &&
+      note.chapter === resolvedParams.chapter &&
+      note.note !== resolvedParams.note,
   );
 
   if (!page) {
     return (
       <PageShell
-        title={titleCase(params.note)}
+        title={titleCase(resolvedParams.note)}
         description="Ghi chú này chưa được thêm vào thư viện."
       >
         <EmptyLibraryState
@@ -47,15 +53,15 @@ export default function NotePage({ params }: NotePageProps) {
   const MDX = pageData.body;
   const noteMeta = library.notes.find(
     (note) =>
-      note.shelf === params.shelf &&
-      note.book === params.book &&
-      note.chapter === params.chapter &&
-      note.note === params.note,
+      note.shelf === resolvedParams.shelf &&
+      note.book === resolvedParams.book &&
+      note.chapter === resolvedParams.chapter &&
+      note.note === resolvedParams.note,
   );
 
   return (
     <PageShell
-      title={pageData.title ?? titleCase(params.note)}
+      title={pageData.title ?? titleCase(resolvedParams.note)}
       description={pageData.summary}
     >
       <div className="flex flex-col gap-6">

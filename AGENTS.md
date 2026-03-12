@@ -111,4 +111,4 @@
 - Ưu tiên viết dễ hiểu, có ví dụ và phản ví dụ.
 - Metadata phải phục vụ index/search/filter.
 - Khi ingest tri thức mới, ưu tiên dùng skill `thu-thu`.
-- **Xem và duyệt nội dung qua web UI** (ví dụ `/shelves/...`) thay vì đọc thẳng file raw; đảm bảo trải nghiệm theo IA thực tế.
+- **Xem và duyệt nội dung qua web UI** (ví dụ `/shelves/...`) thay vì đọc thẳng file raw; nếu web route chưa hiển thị đúng thì ưu tiên sửa route trước khi đánh giá nội dung.

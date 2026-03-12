@@ -5,14 +5,15 @@ import { buildLibrary, findBook, findShelf } from "@/lib/library/build";
 import { titleCase } from "@/lib/taxonomy/format";
 
 interface BookPageProps {
-  params: { shelf: string; book: string };
+  params: Promise<{ shelf: string; book: string }>;
 }
 
-export default function BookPage({ params }: BookPageProps) {
+export default async function BookPage({ params }: BookPageProps) {
+  const resolvedParams = await params;
   const library = buildLibrary();
-  const shelf = findShelf(library, params.shelf);
-  const book = findBook(shelf, params.book);
-  const bookTitle = book?.title ?? titleCase(params.book);
+  const shelf = findShelf(library, resolvedParams.shelf);
+  const book = findBook(shelf, resolvedParams.book);
+  const bookTitle = book?.title ?? titleCase(resolvedParams.book);
 
   return (
     <PageShell
@@ -27,7 +28,7 @@ export default function BookPage({ params }: BookPageProps) {
       ) : (
         <ChapterList
           chapters={book.chapters}
-          shelfSlug={shelf?.slug ?? params.shelf}
+          shelfSlug={shelf?.slug ?? resolvedParams.shelf}
           bookSlug={book.slug}
         />
       )}

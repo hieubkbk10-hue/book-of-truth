@@ -4,12 +4,13 @@ import { buildLibrary } from "@/lib/library/build";
 import { filterNotesByTag } from "@/lib/index/search";
 
 interface TagPageProps {
-  params: { tag: string };
+  params: Promise<{ tag: string }>;
 }
 
-export default function TagPage({ params }: TagPageProps) {
+export default async function TagPage({ params }: TagPageProps) {
+  const resolvedParams = await params;
   const library = buildLibrary();
-  const tag = decodeURIComponent(params.tag);
+  const tag = decodeURIComponent(resolvedParams.tag);
   const notes = filterNotesByTag(library.notes, tag);
 
   return (
