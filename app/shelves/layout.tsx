@@ -10,16 +10,21 @@ const navLinks = [
   { href: "/glossary", label: "Thuật ngữ" },
 ];
 
-const links = navLinks.map((link) => ({ ...link }));
+const links = navLinks.map((link) => ({
+  url: link.href,
+  text: link.label,
+  type: "main" as const,
+}));
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DocsLayout
       tree={source.getPageTree()}
       links={links}
-      toc={{}} // TOC config handled per page via DocsPage
       sidebar={{ enabled: true }}
       nav={{ title: "Book of Truth" }}
+      themeSwitch={{ enabled: false }}
+      searchToggle={{ enabled: true }}
     >
       {children}
     </DocsLayout>

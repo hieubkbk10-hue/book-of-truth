@@ -20,6 +20,7 @@ export const ChapterList = ({
       >
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-zinc-900">
+            {chapter.displayOrder ? `${chapter.displayOrder}. ` : ""}
             {chapter.title}
           </h3>
           <span className="text-xs text-zinc-500">

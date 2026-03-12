@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -17,8 +18,6 @@ export const metadata: Metadata = {
   description: "Thư viện tri thức được biên tập có chính kiến.",
 };
 
-import { RootProvider } from "fumadocs-ui/provider/next";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,7 +28,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-zinc-50 text-zinc-950 antialiased`}
       >
-        <RootProvider theme={{ defaultTheme: "light" }}>
+        <RootProvider
+          theme={{
+            defaultTheme: "light",
+            forcedTheme: "light",
+            enableSystem: false,
+          }}
+          search={{
+            enabled: true,
+            options: { api: "/api/search", type: "fetch" },
+          }}
+        >
           {children}
         </RootProvider>
       </body>

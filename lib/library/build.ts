@@ -1,5 +1,6 @@
 import { source } from "@/lib/source";
 import { titleCase } from "@/lib/taxonomy/format";
+import { formatDisplayOrder, toRoman } from "@/lib/taxonomy/numbering";
 import type {
   BookIndex,
   ChapterIndex,
@@ -30,6 +31,7 @@ const normalizeFrontmatter = (data: NoteFrontmatter | undefined) => ({
   source_type: data?.source_type,
   updated_at: data?.updated_at,
 });
+
 
 const buildNoteMeta = (page: unknown): NoteMeta | null => {
   const slugs = (page as { slugs?: string[] }).slugs ?? [];
@@ -69,18 +71,54 @@ const sortByOrderThenTitle = <T extends { order?: number; title: string }>(
     return a.title.localeCompare(b.title, "vi");
   });
 
+const propagateOrder = <T extends { order?: number }>(items: T[]) =>
+  items.map((item, index) => ({
+    ...item,
+    order: item.order ?? index + 1,
+  }));
+
 export const buildLibrary = (): LibraryIndex => {
   const pages = source.getPages();
   const notes = pages
     .map(buildNoteMeta)
     .filter((note): note is NoteMeta => Boolean(note));
 
-  const shelvesMap = new Map<string, ShelfIndex>();
+    const shelvesMap = new Map<string, ShelfIndex>();
+  const shelfOrderMap = new Map<string, number>();
+  const bookOrderMap = new Map<string, Map<string, number>>();
+  const chapterOrderMap = new Map<string, Map<string, Map<string, number>>>();
 
   notes.forEach((note) => {
     const shelfSlug = note.shelf;
     const bookSlug = note.book;
     const chapterSlug = note.chapter;
+
+    const shelfOrder = shelfOrderMap.get(shelfSlug) ?? note.order;
+    if (shelfOrder && !shelfOrderMap.has(shelfSlug)) {
+      shelfOrderMap.set(shelfSlug, shelfOrder);
+    }
+
+    if (!bookOrderMap.has(shelfSlug)) {
+      bookOrderMap.set(shelfSlug, new Map());
+    }
+    const shelfBookOrders = bookOrderMap.get(shelfSlug)!;
+    const bookOrder = shelfBookOrders.get(bookSlug) ?? note.order;
+    if (bookOrder && !shelfBookOrders.has(bookSlug)) {
+      shelfBookOrders.set(bookSlug, bookOrder);
+    }
+
+    if (!chapterOrderMap.has(shelfSlug)) {
+      chapterOrderMap.set(shelfSlug, new Map());
+    }
+    const shelfChapterOrders = chapterOrderMap.get(shelfSlug)!;
+    if (!shelfChapterOrders.has(bookSlug)) {
+      shelfChapterOrders.set(bookSlug, new Map());
+    }
+    const bookChapterOrders = shelfChapterOrders.get(bookSlug)!;
+    const chapterOrder = bookChapterOrders.get(chapterSlug) ?? note.order;
+    if (chapterOrder && !bookChapterOrders.has(chapterSlug)) {
+      bookChapterOrders.set(chapterSlug, chapterOrder);
+    }
 
     if (!shelvesMap.has(shelfSlug)) {
       shelvesMap.set(shelfSlug, {
@@ -115,12 +153,20 @@ export const buildLibrary = (): LibraryIndex => {
   });
 
   const shelves = Array.from(shelvesMap.values())
-    .map((shelf) => ({
+    .map((shelf, shelfIndex) => ({
       ...shelf,
-      books: shelf.books.map((book) => ({
+      order: shelfOrderMap.get(shelf.slug) ?? shelf.order ?? shelfIndex + 1,
+      books: shelf.books.map((book, bookIndex) => ({
         ...book,
-        chapters: book.chapters.map((chapter) => ({
+        order:
+          bookOrderMap.get(shelf.slug)?.get(book.slug) ?? book.order ?? bookIndex + 1,
+        chapters: book.chapters.map((chapter, chapterIndex) => ({
           ...chapter,
+          order:
+            chapterOrderMap
+              .get(shelf.slug)
+              ?.get(book.slug)
+              ?.get(chapter.slug) ?? chapter.order ?? chapterIndex + 1,
           notes: sortByOrderThenTitle(chapter.notes),
         })),
       })),
@@ -131,6 +177,25 @@ export const buildLibrary = (): LibraryIndex => {
         ...book,
         chapters: sortByOrderThenTitle(book.chapters),
       })),
+    }))
+    .map((shelf) => ({
+      ...shelf,
+      books: sortByOrderThenTitle(shelf.books),
+    }))
+    .map((shelf) => ({
+      ...shelf,
+      books: shelf.books.map((book, bookIndex) => ({
+        ...book,
+        displayOrder: formatDisplayOrder(book.order, bookIndex + 1),
+        chapters: book.chapters.map((chapter, chapterIndex) => ({
+          ...chapter,
+          displayOrder: `${formatDisplayOrder(book.order, bookIndex + 1)}.${formatDisplayOrder(
+            chapter.order,
+            chapterIndex + 1,
+          )}`,
+        })),
+      })),
+      displayOrder: toRoman(shelf.order ?? 0),
     }));
 
   return {

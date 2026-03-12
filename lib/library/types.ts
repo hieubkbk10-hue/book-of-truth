@@ -40,18 +40,24 @@ export interface ChapterIndex {
   slug: string;
   title: string;
   notes: NoteMeta[];
+  order?: number;
+  displayOrder?: string;
 }
 
 export interface BookIndex {
   slug: string;
   title: string;
   chapters: ChapterIndex[];
+  order?: number;
+  displayOrder?: string;
 }
 
 export interface ShelfIndex {
   slug: string;
   title: string;
   books: BookIndex[];
+  order?: number;
+  displayOrder?: string;
 }
 
 export interface LibraryIndex {

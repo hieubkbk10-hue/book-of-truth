@@ -12,7 +12,10 @@ export const BookCard = ({ book, shelfSlug }: BookCardProps) => (
     className="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-zinc-300"
   >
     <div>
-      <h3 className="text-lg font-semibold text-zinc-900">{book.title}</h3>
+      <h3 className="text-lg font-semibold text-zinc-900">
+        {book.displayOrder ? `${book.displayOrder}. ` : ""}
+        {book.title}
+      </h3>
       <p className="mt-1 text-sm text-zinc-600">
         {book.chapters.length} chương
       </p>

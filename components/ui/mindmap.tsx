@@ -32,57 +32,14 @@ import {
 import MindElixir from "mind-elixir";
 import { snapdom, type SnapdomOptions } from "@zumer/snapdom";
 
-function getDocumentTheme(): Theme | null {
-  if (typeof document === "undefined") return null;
-  if (document.documentElement.classList.contains("dark")) return "dark";
-  if (document.documentElement.classList.contains("light")) return "light";
-  return null;
-}
-
-function getSystemTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
-function useResolvedTheme(themeProp?: "light" | "dark"): "light" | "dark" {
-  const [detectedTheme, setDetectedTheme] = useState<"light" | "dark">(
-    () => getDocumentTheme() ?? getSystemTheme(),
-  );
-
-  useEffect(() => {
-    if (themeProp) return;
-
-    const observer = new MutationObserver(() => {
-      const docTheme = getDocumentTheme();
-      if (docTheme) {
-        setDetectedTheme(docTheme);
-      }
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleSystemChange = (e: MediaQueryListEvent) => {
-      if (!getDocumentTheme()) {
-        setDetectedTheme(e.matches ? "dark" : "light");
-      }
-    };
-    mediaQuery.addEventListener("change", handleSystemChange);
-
-    return () => {
-      observer.disconnect();
-      mediaQuery.removeEventListener("change", handleSystemChange);
-    };
-  }, [themeProp]);
-
-  return themeProp ?? detectedTheme;
-}
+const FORCED_THEME: Theme = "light";
 
 type Theme = "light" | "dark";
+
+function useResolvedTheme(themeProp?: Theme): Theme {
+  // Mindmap bị khóa light để đồng bộ với toàn site; bỏ phụ thuộc system/browser
+  return themeProp ?? FORCED_THEME;
+}
 
 interface MindMapContextValue {
   mind: MindElixirInstance | null;
@@ -350,7 +307,7 @@ export const MindMap = forwardRef<MindMapRef, MindMapProps>(function MindMap(
       initialData.theme ||
       getTheme(resolvedThemeRef.current === "dark", monochrome);
 
-    const options: Options = {
+    const options = {
       el: containerRef.current,
       direction,
       contextMenu,
@@ -363,7 +320,7 @@ export const MindMap = forwardRef<MindMapRef, MindMapProps>(function MindMap(
       editable: !readonly,
       alignment: "nodes",
       theme: themeToUse,
-    };
+    } as Options & { nodeMenu?: boolean };
 
     try {
       const mind = new MindElixir(options);
@@ -512,12 +469,12 @@ export function MindMapControls({
         const result = await snapdom(mind.nodes);
         const rootTopic = mind.nodeData.topic || "mindmap";
         const filename = `${rootTopic}.jpg`;
-        const options: SnapdomOptions = {
+        const options = {
           type: "jpg",
           filename: rootTopic,
           quality: 1,
           backgroundColor: mind.theme.cssVar["--bgcolor"],
-        };
+        } as SnapdomOptions & { filename?: string };
 
         if (onExport) {
           const blob = await result.toBlob(options);

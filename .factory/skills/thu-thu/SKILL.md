@@ -16,9 +16,14 @@ description: Biên tập tri thức cho Book of Truth: phân loại vào shelf/b
 ## Nguyên tắc
 1. **Chính kiến nhưng có evidence**: mọi kết luận phải nêu rõ Observation / Inference / Decision.
 2. **Không overwrite**: nếu mâu thuẫn, ghi rõ `conflicts_with` hoặc `superseded_by`.
-3. **Taxonomy rõ ràng**: luôn xác định shelf/book/chapter trước khi viết note.
-4. **Indexable**: metadata phải hỗ trợ search/filter.
-5. **Viết dễ hiểu**: ưu tiên ngắn gọn, ví dụ cụ thể.
+3. **Taxonomy rõ ràng + numbering bắt buộc**: luôn xác định shelf/book/chapter trước khi viết note và gán `order` đúng:
+   - Shelf: La Mã (I, II, III...)
+   - Book: số thập phân (1, 2, 3...)
+   - Chapter: số lồng (1.1, 1.2...)
+   - Note: không prefix title, chỉ cần `order` để sort.
+4. **Indexable + search-ready**: metadata phải hỗ trợ search/filter và được index vào Fumadocs (đảm bảo frontmatter đủ `title/summary/order/tags/keywords`).
+5. **Light-only parity**: nội dung và ví dụ phải assume giao diện khóa light mode, không phụ thuộc `prefers-color-scheme`.
+6. **Viết dễ hiểu**: ưu tiên ngắn gọn, ví dụ cụ thể.
 
 ## Best Practices 2026 (curation + IA)
 - **IA là hệ thống tổ chức sống**: cấu trúc phải phản ánh mối quan hệ giữa nội dung và phục vụ findability; IA luôn tồn tại và cần được xem như quá trình liên tục.
@@ -34,11 +39,11 @@ Nguồn tham chiếu (2026):
 
 ## Workflow chuẩn
 1. Đọc tri thức thô và xác định chủ đề chính.
-2. Đề xuất vị trí trong thư viện (shelf/book/chapter).
-3. Kiểm tra trùng lặp hoặc xung đột với note hiện có.
+2. Đề xuất vị trí trong thư viện (shelf/book/chapter) và set `order` ngay tại frontmatter theo quy ước numbering.
+3. Kiểm tra trùng lặp hoặc xung đột với note hiện có; nếu có, cập nhật `conflicts_with`/`superseded_by`.
 4. Nếu thiếu evidence, dùng chiến lược của `docs-seeker` để tìm tài liệu tham chiếu.
-5. Viết note theo template chuẩn.
-6. Gắn metadata: tags, keywords, prerequisites, related, status, confidence.
+5. Viết note theo template chuẩn; bảo đảm `summary` ngắn gọn, `order` không bỏ trống.
+6. Gắn metadata: tags, keywords, prerequisites, related, status, confidence; kiểm tra searchability (keywords/tags ngắn gọn, không nhồi từ khóa).
 7. Sinh **summary + block `<MindmapViewer />`** cho shelf/book/chapter tương ứng để đặt ở đầu mỗi đơn vị.
 8. Gắn trigger: khi note trong cùng shelf/book/chapter thay đổi, phải regenerate summary + mindmap component liên quan.
 9. Trả về ghi chú MDX hoàn chỉnh + rationale ngắn.
@@ -52,6 +57,8 @@ shelf: ...
 book: ...
 chapter: ...
 order: 1
+# Rule: order theo hierarchy (Shelf I, Book 1, Chapter 1.1...).
+# Note không prefix title, chỉ dùng order để sort.
 tags: []
 keywords: []
 prerequisites: []
@@ -79,6 +86,23 @@ updated_at: YYYY-MM-DD
 ## Liên kết với note khác
 
 ## Observation / Inference / Decision
+```
+
+## Ví dụ frontmatter (đã chuẩn numbering)
+```md
+---
+title: Nguyên tắc KISS
+summary: Tập trung vào giải pháp đơn giản để giảm rủi ro vận hành.
+shelf: foundations
+book: book-of-truth
+chapter: principles
+order: 2
+keywords: [kiss, donotoverengineer]
+tags: [practice]
+status: stable
+confidence: high
+updated_at: 2026-03-13
+---
 ```
 
 ## Template tóm tắt + mindmap cho shelf/book/chapter
@@ -115,8 +139,10 @@ Khi hoàn thành, trả ra 3 phần:
 3. **Tóm tắt + mindmap_data (mindmapcn)** cho shelf/book/chapter bị ảnh hưởng (nếu có thay đổi)
 
 ## Checklist chất lượng
-- [ ] Phân loại đúng taxonomy
-- [ ] Metadata đầy đủ để index
+- [ ] Phân loại đúng taxonomy + đặt `order` theo hierarchy (I/1/1.1)
+- [ ] Metadata đầy đủ để index (title/summary/tags/keywords)
+- [ ] Search-ready: keywords/tags ngắn gọn, không nhồi từ khóa
+- [ ] Light-only parity: nội dung không phụ thuộc dark mode
 - [ ] Có phản biện và confidence
 - [ ] Không khẳng định vượt quá evidence
 - [ ] Văn phong ngắn gọn, dễ hiểu
