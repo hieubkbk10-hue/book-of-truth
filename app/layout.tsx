@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   description: "Thư viện tri thức được biên tập có chính kiến.",
 };
 
+import { RootProvider } from "fumadocs-ui/provider/next";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-zinc-50 text-zinc-950 antialiased`}
       >
-        {children}
+        <RootProvider>{children}</RootProvider>
       </body>
     </html>
   );
