@@ -49,24 +49,32 @@ updated_at: 2026-03-13
    - Rủi ro: tính công sai, báo cáo sai, tranh chấp lao động.
    - Quyết định cần chốt: spec hay code là nguồn chuẩn cho từng rule.
    - Evidence (docx): SRS v1.0 lines 358–376; PM mô tả lines 164–181.
+   - Trích SRS v1.0 (358–376): “Phân bổ ca cân bằng… Đi trễ tối đa/ngày 9 phút/ngày… Tăng ca tối thiểu/ngày 60 phút/ngày… OT tối đa giữa hai ngày nghỉ tour 12 giờ.”
+   - Trích PM mô tả (169–181): “Phân bổ gần như đồng đều… Đi trễ: Không có ngày nào trễ quá 9 phút… Tăng ca… ít hơn 60 phút… Tổng số giờ tăng ca giữa các ngày nghỉ tour không quá 12 tiếng.”
 
 2. **Chuẩn đi trễ đúng là ≤ 9 phút/ngày hay khác?**
    - Vì sao: code cho phép 1–14 phút và cộng offset 15 phút vào giờ vào.
    - Rủi ro: chấm công sai, tăng/giảm thưởng phạt.
    - Quyết định cần chốt: ngưỡng chuẩn + xử lý offset (bỏ, giữ, hay đổi).
    - Evidence (docx): SRS v1.0 lines 362–364; PM mô tả lines 174–175.
+   - Trích SRS v1.0 (362–364): “Đi trễ tối đa/ngày 9 phút/ngày. Không có ngày nào có số phút trễ > 9 phút.”
+   - Trích PM mô tả (174–175): “Đi trễ: Không có ngày nào trễ quá 9 phút.”
 
 3. **OT tối thiểu/ngày và OT giữa hai ngày nghỉ có bắt buộc không?**
    - Vì sao: spec nêu ≥ 60 phút/ngày + ≤ 12 giờ giữa hai ngày nghỉ, code chưa thấy xử lý.
    - Rủi ro: vi phạm nội quy OT, báo cáo sai.
    - Quyết định cần chốt: rule bắt buộc hay heuristic, và ưu tiên rule nào khi xung đột.
    - Evidence (docx): SRS v1.0 lines 366–376; PM mô tả lines 176–181.
+   - Trích SRS v1.0 (366–376): “Tăng ca tối thiểu/ngày 60 phút/ngày… OT tối đa giữa hai ngày nghỉ tour 12 giờ.”
+   - Trích PM mô tả (176–181): “Tăng ca: Không có ngày nào tăng ca ít hơn 60 phút… Tổng số giờ tăng ca giữa các ngày nghỉ tour không quá 12 tiếng.”
 
 4. **Nhóm đặc thù 7 giờ/ngày: mapping mã và hiệu lực theo ngày nào?**
    - Vì sao: code dùng mã khác (18_DUOI_18/19A_CO_THAI/19_NUOI_CON_NHO).
    - Rủi ro: sai áp dụng chế độ lao động cho nhóm đặc thù.
    - Quyết định cần chốt: mapping chính thức + cách áp dụng từ ngày hiệu lực.
    - Evidence (docx): SRS v1.0 lines 219–237; PM mô tả lines 101–105.
+   - Trích SRS v1.0 (219–237): “U18… PREG… NURSG… Trường group_code_end_date xác định ngày hết hạn hưởng chế độ.”
+   - Trích PM mô tả (101–105): “Dưới 18 tuổi, Có thai, Nuôi con nhỏ… Thời gian làm việc tối đa 7 giờ/ngày.”
 
 ## Câu hỏi ưu tiên P1 — ảnh hưởng thuật toán & dữ liệu
 1. **Cân bằng ca là hard rule hay soft preference?**
@@ -74,24 +82,32 @@ updated_at: 2026-03-13
    - Rủi ro: nếu hard rule, output code hiện tại sai nghiệp vụ.
    - Quyết định cần chốt: mức độ bắt buộc + cách đo cân bằng.
    - Evidence (docx): SRS v1.0 lines 358–360; PM mô tả lines 169–171.
+   - Trích SRS v1.0 (358–360): “Phân bổ ca cân bằng… Chênh lệch ≤ 1 NV/ca/ngày.”
+   - Trích PM mô tả (169–171): “Phân bổ gần như đồng đều số lượng nhân viên giữa các ca trong cùng một ngày.”
 
 2. **Khoảng cách nghỉ liên tháng đang được xử lý ở đâu?**
    - Vì sao: spec có rule, code module hiện không thấy.
    - Rủi ro: lịch nghỉ liên tháng sai.
    - Quyết định cần chốt: module xử lý và dữ liệu tháng trước nằm ở đâu.
    - Evidence (docx): SRS v1.0 lines 346–348; PM mô tả lines 160–163.
+   - Trích SRS v1.0 (346–348): “Khoảng cách ngày nghỉ liên tháng ≤ 6 ngày.”
+   - Trích PM mô tả (160–163): “Khoảng cách giữa ngày nghỉ cuối cùng của tháng trước và ngày nghỉ đầu tiên của tháng hiện tại không vượt quá 6 ngày làm việc.”
 
 3. **PN bắt buộc sau ngày 15 hay “cuối chuỗi nghỉ” bất kể ngày?**
    - Vì sao: code chỉ cho PN sau ngày 15, spec nói “cuối kỳ nghỉ”.
    - Rủi ro: PN bị đặt sai vị trí.
    - Quyết định cần chốt: logic chuẩn và cách triển khai.
    - Evidence (docx): SRS v1.0 lines 354–356; PM mô tả lines 163–164.
+   - Trích SRS v1.0 (354–356): “Vị trí phép năm (PN) — Cuối kỳ nghỉ.”
+   - Trích PM mô tả (163–164): “Ngày nghỉ phép năm (PN) được ưu tiên sắp xếp vào các vị trí cuối của kỳ nghỉ.”
 
 4. **Khi import dữ liệu ngày (Day_1..Day_31) mâu thuẫn với rule phân bổ thì ưu tiên gì?**
    - Vì sao: input có thể ép dữ liệu trái rule.
    - Rủi ro: hệ thống sửa sai làm mất dữ liệu nguồn hoặc giữ sai rule.
    - Quyết định cần chốt: ưu tiên giữ input hay auto-correct.
    - Evidence (docx): SRS v1.0 lines 283–287, 399–417; PM mô tả lines 112–138, 155–183.
+   - Trích SRS v1.0 (399–417): “Đầu vào: workdays, ký hiệu Day_1…Day_31… Phân bổ ngẫu nhiên có kiểm soát: đi trễ ≤ 9 phút/ngày; OT ≥ 60 phút/ngày…”
+   - Trích PM mô tả (112–138): “Hằng tháng sẽ import… Day 1… Day 31… Giá trị có thể là: X, X/2, P, PN, Ô, TS, NL, LL, LN, H, B…”
 
 ## Câu hỏi ưu tiên P2 — ảnh hưởng UX/quy trình vận hành
 1. **Khi tổng hợp ngày công lệch với chi tiết, hệ thống nên fail hay chỉ cảnh báo?**
@@ -99,18 +115,23 @@ updated_at: 2026-03-13
    - Rủi ro: bảng chấm công lỗi vẫn được xuất.
    - Quyết định cần chốt: chế độ fail, cảnh báo, hoặc bắt buộc sửa.
    - Evidence (docx): SRS v1.0 lines 557–565; PM mô tả lines 272–275.
+   - Trích SRS v1.0 (557–565): “Tổng ngày công… ≠ số ngày… Tổng phút trễ… ≠ tổng phút trễ chi tiết… Tổng giờ OT… ≠ tổng phút OT chi tiết… Tiêu chí đạt: Tất cả giá trị tổng hợp khớp 100%.”
+   - Trích PM mô tả (272–275): “Bộ lọc tổng hợp sai lệch dữ liệu… tổng ngày công không khớp… tổng giờ tăng ca/đi trễ không khớp dữ liệu chi tiết.”
 
 2. **Sao chép cấu hình tháng có bao gồm danh sách nhân viên không?**
    - Vì sao: spec vs PM doc mâu thuẫn.
    - Rủi ro: quy trình HR bị kéo dài hoặc sai dữ liệu.
    - Quyết định cần chốt: copy hay không copy + có điều kiện không.
    - Evidence (docx): SRS v1.0 lines 71–92; PM mô tả lines 68–69.
+   - Trích SRS v1.0 (71–92): “Danh sách nhân viên ✘ Không. Phải import lại từ file mỗi tháng.”
+   - Trích PM mô tả (68–69): “Hỗ trợ chức năng copy cấu hình… (phòng ban, ca làm, loại nghỉ, nhóm đối tượng, danh sách nhân viên).”
 
 3. **Rule riêng cho kế toán là nghiệp vụ thật hay workaround dev?**
    - Vì sao: code có lịch riêng kế toán, spec không đề cập.
    - Rủi ro: áp sai rule cho phòng ban khác.
    - Quyết định cần chốt: giữ rule hay bỏ, phạm vi áp dụng.
    - Evidence (docx): Không thấy trong SRS/PM mô tả (cần xác nhận nguồn khác).
+   - Trích docx: không có đoạn tương ứng; nguồn hiện tại chỉ có trong code.
 
 ## Cách hỏi Manager để chốt nhanh
 - Mỗi câu hỏi nên chốt bằng “chọn 1 trong 2–3 phương án” để tránh trả lời mơ hồ.
