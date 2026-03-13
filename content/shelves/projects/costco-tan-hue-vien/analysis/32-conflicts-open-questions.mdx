@@ -1,6 +1,6 @@
 ---
 title: Conflicts & open questions
-summary: Tổng hợp các mâu thuẫn giữa tài liệu và code, cùng các câu hỏi cần xác nhận.
+summary: Tổng hợp mâu thuẫn spec vs code và bộ câu hỏi deep để chốt với Manager theo mức ưu tiên payroll/compliance.
 shelf: projects
 book: costco-tan-hue-vien
 chapter: analysis
@@ -43,11 +43,68 @@ updated_at: 2026-03-13
    - Spec: U18/PREG/NURSG.
    - Code: 18_DUOI_18/19A_CO_THAI/19_NUOI_CON_NHO.
 
-## Câu hỏi mở
-- Rule nào được ưu tiên khi spec và code mâu thuẫn?
-- Có cần cập nhật code để phản ánh chuẩn 9 phút/ngày không?
-- Có cần thêm logic cân bằng ca theo phòng ban không?
-- Khoảng cách nghỉ liên tháng đang được xử lý ở module nào khác?
+## Câu hỏi ưu tiên P0 — ảnh hưởng payroll/compliance
+1. **Nguồn chuẩn khi spec và code mâu thuẫn là gì?**
+   - Vì sao: hiện có nhiều rule drift (late minutes, OT, cân bằng ca).
+   - Rủi ro: tính công sai, báo cáo sai, tranh chấp lao động.
+   - Quyết định cần chốt: spec hay code là nguồn chuẩn cho từng rule.
+
+2. **Chuẩn đi trễ đúng là ≤ 9 phút/ngày hay khác?**
+   - Vì sao: code cho phép 1–14 phút và cộng offset 15 phút vào giờ vào.
+   - Rủi ro: chấm công sai, tăng/giảm thưởng phạt.
+   - Quyết định cần chốt: ngưỡng chuẩn + xử lý offset (bỏ, giữ, hay đổi).
+
+3. **OT tối thiểu/ngày và OT giữa hai ngày nghỉ có bắt buộc không?**
+   - Vì sao: spec nêu ≥ 60 phút/ngày + ≤ 12 giờ giữa hai ngày nghỉ, code chưa thấy xử lý.
+   - Rủi ro: vi phạm nội quy OT, báo cáo sai.
+   - Quyết định cần chốt: rule bắt buộc hay heuristic, và ưu tiên rule nào khi xung đột.
+
+4. **Nhóm đặc thù 7 giờ/ngày: mapping mã và hiệu lực theo ngày nào?**
+   - Vì sao: code dùng mã khác (18_DUOI_18/19A_CO_THAI/19_NUOI_CON_NHO).
+   - Rủi ro: sai áp dụng chế độ lao động cho nhóm đặc thù.
+   - Quyết định cần chốt: mapping chính thức + cách áp dụng từ ngày hiệu lực.
+
+## Câu hỏi ưu tiên P1 — ảnh hưởng thuật toán & dữ liệu
+1. **Cân bằng ca là hard rule hay soft preference?**
+   - Vì sao: spec yêu cầu cân bằng, code hiện chọn ca ngẫu nhiên.
+   - Rủi ro: nếu hard rule, output code hiện tại sai nghiệp vụ.
+   - Quyết định cần chốt: mức độ bắt buộc + cách đo cân bằng.
+
+2. **Khoảng cách nghỉ liên tháng đang được xử lý ở đâu?**
+   - Vì sao: spec có rule, code module hiện không thấy.
+   - Rủi ro: lịch nghỉ liên tháng sai.
+   - Quyết định cần chốt: module xử lý và dữ liệu tháng trước nằm ở đâu.
+
+3. **PN bắt buộc sau ngày 15 hay “cuối chuỗi nghỉ” bất kể ngày?**
+   - Vì sao: code chỉ cho PN sau ngày 15, spec nói “cuối kỳ nghỉ”.
+   - Rủi ro: PN bị đặt sai vị trí.
+   - Quyết định cần chốt: logic chuẩn và cách triển khai.
+
+4. **Khi import dữ liệu ngày (Day_1..Day_31) mâu thuẫn với rule phân bổ thì ưu tiên gì?**
+   - Vì sao: input có thể ép dữ liệu trái rule.
+   - Rủi ro: hệ thống sửa sai làm mất dữ liệu nguồn hoặc giữ sai rule.
+   - Quyết định cần chốt: ưu tiên giữ input hay auto-correct.
+
+## Câu hỏi ưu tiên P2 — ảnh hưởng UX/quy trình vận hành
+1. **Khi tổng hợp ngày công lệch với chi tiết, hệ thống nên fail hay chỉ cảnh báo?**
+   - Vì sao: code hiện chỉ cảnh báo (highlight).
+   - Rủi ro: bảng chấm công lỗi vẫn được xuất.
+   - Quyết định cần chốt: chế độ fail, cảnh báo, hoặc bắt buộc sửa.
+
+2. **Sao chép cấu hình tháng có bao gồm danh sách nhân viên không?**
+   - Vì sao: spec vs PM doc mâu thuẫn.
+   - Rủi ro: quy trình HR bị kéo dài hoặc sai dữ liệu.
+   - Quyết định cần chốt: copy hay không copy + có điều kiện không.
+
+3. **Rule riêng cho kế toán là nghiệp vụ thật hay workaround dev?**
+   - Vì sao: code có lịch riêng kế toán, spec không đề cập.
+   - Rủi ro: áp sai rule cho phòng ban khác.
+   - Quyết định cần chốt: giữ rule hay bỏ, phạm vi áp dụng.
+
+## Cách hỏi Manager để chốt nhanh
+- Mỗi câu hỏi nên chốt bằng “chọn 1 trong 2–3 phương án” để tránh trả lời mơ hồ.
+- Ưu tiên câu hỏi P0 trước vì ảnh hưởng payroll/compliance.
+- Nếu Manager không chắc, xin chỉ định người/nguồn chuẩn (policy nội bộ, quy định pháp lý, hoặc SRS đã duyệt).
 
 ## Observation / Inference / Decision
 - **Observation**: Các mâu thuẫn ảnh hưởng trực tiếp đến thuật toán phân bổ.
