@@ -1,0 +1,123 @@
+---
+title: Tổng quan dự án COSTCO (Tân Huê Viên)
+summary: Đặc tả tổng hợp cho phần mềm desktop phân bổ và kiểm tra chấm công theo tháng, gồm mục tiêu, phạm vi, module chính, quy tắc nghiệp vụ, NFR và các điểm contested.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: overview
+order: 1
+tags: [project, srs, hr, attendance, desktop]
+keywords: [costco, tan hue vien, cham cong, phan bo, kiem tra, desktop]
+prerequisites: []
+related: []
+conflicts_with: []
+superseded_by: null
+status: contested
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Tóm tắt nhanh
+- Phần mềm desktop phục vụ phân bổ và kiểm tra chấm công theo tháng, tối ưu xử lý dữ liệu lớn.
+- Quy trình chuẩn: cấu hình tháng → import nhân viên + dữ liệu thô → phân bổ tự động → 13 bộ lọc kiểm tra → hiệu chỉnh → xuất Excel.
+- Tách rõ module cấu hình tháng, phân bổ chấm công, và kiểm tra bảng chấm công ngoài hệ thống.
+- Bộ quy tắc nghiệp vụ tập trung vào giới hạn ngày làm liên tục, phân bổ ca/OT cân bằng, và nhóm đối tượng đặc thù.
+- Có điểm contested về việc copy danh sách nhân viên khi sao chép cấu hình tháng.
+
+<MindmapViewer
+  data={{
+    nodeData: {
+      id: "root",
+      topic: "COSTCO – Tân Huê Viên",
+      children: [
+        { id: "goal", topic: "Mục tiêu", children: [
+          { id: "goal-1", topic: "Xử lý dữ liệu lớn" },
+          { id: "goal-2", topic: "Tự động phân bổ" },
+          { id: "goal-3", topic: "Kiểm tra chính xác" },
+        ] },
+        { id: "scope", topic: "Phạm vi", children: [
+          { id: "scope-in", topic: "Cấu hình tháng, phân bổ, kiểm tra" },
+          { id: "scope-out", topic: "Không tính lương, không cloud" },
+        ] },
+        { id: "modules", topic: "Module", children: [
+          { id: "mod-1", topic: "Cấu hình tháng" },
+          { id: "mod-2", topic: "Phân bổ chấm công" },
+          { id: "mod-3", topic: "Kiểm tra bảng ngoài hệ thống" },
+        ] },
+        { id: "rules", topic: "Business rules", children: [
+          { id: "rule-1", topic: "≤ 6 ngày làm liên tục" },
+          { id: "rule-2", topic: "OT/ca cân bằng" },
+          { id: "rule-3", topic: "Nhóm đặc thù ≤ 7h/ngày" },
+        ] },
+        { id: "quality", topic: "NFR & nghiệm thu", children: [
+          { id: "nfr", topic: "Hiệu năng + audit log" },
+          { id: "acc", topic: "Đáp ứng 13 bộ lọc" },
+        ] },
+        { id: "gaps", topic: "Contested/Gaps", children: [
+          { id: "gap-1", topic: "Copy danh sách nhân viên" },
+        ] },
+      ],
+    },
+    direction: 2,
+  }}
+/>
+
+## Ý chính
+Phần mềm COSTCO là ứng dụng desktop phục vụ nghiệp vụ phân bổ và kiểm tra chấm công theo tháng cho Công ty Tân Huê Viên. Hệ thống làm việc theo từng tháng độc lập, hỗ trợ cấu hình, import dữ liệu, phân bổ tự động theo quy tắc, kiểm tra 13 tiêu chí và xuất báo cáo/Excel.
+
+## Khi nào dùng
+- Khi cần tạo bảng chấm công nhanh cho hàng trăm–nghìn nhân viên.
+- Khi cần kiểm tra tuân thủ quy tắc chấm công và chỉnh sửa trực tiếp trên giao diện grid.
+- Khi cần xuất báo cáo kiểm tra hoặc bảng chấm công hoàn thiện theo chuẩn Excel.
+
+## Khi nào không dùng
+- Không phù hợp cho nghiệp vụ tính lương tự động, quản lý hợp đồng, hoặc điều khiển thiết bị chấm công.
+- Không phù hợp nếu yêu cầu kết nối cloud/internet hoặc triển khai web.
+
+## Phạm vi & ngoài phạm vi
+**Trong phạm vi**: cấu hình tháng, import danh sách nhân viên và dữ liệu thô, phân bổ tự động theo 4 giai đoạn, 13 bộ lọc kiểm tra, chỉnh sửa trực tiếp, xuất Excel (cấu hình/bảng chấm công/báo cáo kiểm tra), kiểm tra bảng chấm công ngoài hệ thống.
+
+**Ngoài phạm vi**: tính lương tự động, quản lý hợp đồng, điều khiển thiết bị chấm công, kết nối cloud/internet.
+
+## Kiến trúc chức năng (tổng hợp)
+### Module cấu hình tháng
+- Tạo mới hoặc sao chép cấu hình tháng liền kề.
+- Quản lý phòng ban, ca làm việc, loại nghỉ, nhóm đối tượng đặc thù.
+- Import danh sách nhân viên theo mẫu Excel và validate dữ liệu.
+- Xuất Excel cấu hình tháng (đủ sheet).
+
+### Module phân bổ chấm công
+- Phân bổ tự động theo 4 giai đoạn: ngày công/nghỉ → phân ca → đi trễ/OT → giờ vào/ra.
+- Grid hiển thị tương tự Excel, hỗ trợ cuộn mượt, freeze cột, chỉnh sửa trực tiếp.
+- Audit log, undo/redo, và xuất Excel bảng chấm công hoàn chỉnh.
+
+### Module kiểm tra
+- 13 bộ lọc vi phạm: phòng ban/nhân viên không hợp lệ, ngày làm liên tục, khoảng cách nghỉ liên tháng, PN sai vị trí, chia ca/OT không cân bằng, đi trễ/OT sai ngưỡng, nhóm đặc thù vượt giờ, giờ vào/ra sai, ký hiệu không hợp lệ, tổng hợp sai lệch.
+
+### Kiểm tra bảng chấm công ngoài hệ thống
+- Import bảng chấm công đã có, chạy 13 bộ lọc, xuất báo cáo kiểm tra (tóm tắt + chi tiết).
+
+## Business rules cốt lõi
+- Làm liên tục ≤ 6 ngày; khoảng cách ngày nghỉ liên tháng ≤ 6 ngày.
+- Phân bổ ngày nghỉ đều (trừ Ban Giám đốc), PN nằm cuối chuỗi nghỉ.
+- Chia ca cân bằng, đi trễ ≤ 9 phút/ngày, OT ≥ 60 phút/ngày.
+- OT cân bằng trong phòng ban; OT giữa hai ngày nghỉ ≤ 12 giờ.
+- Nhóm đặc thù (U18, PREG, NURSG) ≤ 7 giờ/ngày.
+
+## NFR & tiêu chí nghiệm thu
+- Grid 1.000 NV × 31 ngày render ≤ 3 giây; phân bổ ≤ 60 giây; chạy 13 bộ lọc ≤ 30 giây.
+- Hỗ trợ undo/redo ≥ 30 bước; audit log đầy đủ; backup hằng ngày.
+- Chạy Windows 10/11, giao diện tiếng Việt, dữ liệu lưu cục bộ.
+
+## Điểm contested / cần xác nhận
+- **Copy cấu hình tháng – danh sách nhân viên**: SRS v1.0 và consolidated nêu không sao chép danh sách nhân viên, nhưng bảng chức năng trong tài liệu mô tả PM có đoạn nói có sao chép. Cần xác nhận chính thức trước khi triển khai.
+
+## Observation / Inference / Decision
+- **Observation**: Cả 3 nguồn thống nhất về mục tiêu, phạm vi và 13 bộ lọc kiểm tra, nhưng có mâu thuẫn ở quy tắc sao chép danh sách nhân viên.
+- **Inference**: Mâu thuẫn này ảnh hưởng trực tiếp đến quy trình khởi tạo tháng và dữ liệu đầu vào, nên không thể tự quyết khi chưa có xác nhận.
+- **Decision**: Đánh dấu note ở trạng thái `contested` và giữ cả hai khả năng trong phần “Điểm contested / cần xác nhận”.
+
+## Nguồn tham chiếu
+- `COSTCO_SRS_v1.0.docx`
+- `Mo ta PM COST THV.docx`
+- `COSTCO_SRS_Consolidated.md`
