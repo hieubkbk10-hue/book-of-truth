@@ -1,0 +1,33 @@
+---
+title: Rule lịch đặc thù (kế toán)
+summary: Logic lịch làm việc riêng cho bộ phận kế toán trong code hiện tại.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 28
+tags: [rule, calendar, accounting]
+keywords: [ke toan, lich, thu bay, chu nhat]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: low
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Code evidence
+- `generate_calendar_array(month, year, input_array)`:
+  - Chọn ngẫu nhiên thứ 7 hoặc chủ nhật làm ngày nghỉ chính.
+  - Đánh dấu các ngày cuối tuần (thứ 7 hoặc CN) là nghỉ nếu giá trị hiện tại là 0.
+  - Chọn ngẫu nhiên tuần kế cuối hoặc tuần cuối để đặt PN (value 2) vào ngày cuối tuần đối diện.
+- Áp dụng cho phòng ban **BỘ PHẬN KẾ TOÁN** trong `process_attendance_distribution`.
+
+## Spec coverage
+- Spec không nêu rule riêng cho kế toán; đây là logic implementation-specific.
+
+## Observation / Inference / Decision
+- **Observation**: Có logic lịch đặc thù theo phòng ban trong code.
+- **Inference**: Đây là rule mới cần xác nhận nghiệp vụ.
+- **Decision**: Đánh dấu `confidence: low` và đưa vào conflict/open questions.

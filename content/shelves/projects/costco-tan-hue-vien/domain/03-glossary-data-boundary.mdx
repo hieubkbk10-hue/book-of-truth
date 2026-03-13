@@ -1,0 +1,38 @@
+---
+title: Glossary & data boundary
+summary: Thuật ngữ trọng yếu và biên dữ liệu vào/ra của hệ thống chấm công tháng.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: domain
+order: 3
+tags: [domain, glossary, data]
+keywords: [thang lam viec, bo loc, nhom dac thu, import, export]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/14-import-export-contracts]
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Thuật ngữ
+- **Tháng làm việc**: đơn vị dữ liệu độc lập, cấu hình và bảng chấm công riêng theo từng tháng.
+- **Bộ lọc kiểm tra**: tập 13 tiêu chí phát hiện vi phạm trên bảng chấm công.
+- **Nhóm đối tượng đặc thù**: nhóm nhân viên giới hạn 7 giờ/ngày (tài liệu: U18, PREG, NURSG; code: 18_DUOI_18, 19A_CO_THAI, 19_NUOI_CON_NHO).
+- **Ngày công / ngày nghỉ**: ký hiệu chấm công theo ngày (X, X/2, P, PN, Ô, TS, DS, O, NL, L, LP, LL, LN, H, B, OF).
+
+## Biên dữ liệu (input)
+- **Excel danh sách nhân viên**: employee_code, employee_name, department, group_code, group_code_end_date, workdays, Day_1…Day_31, overtime_hours, late_minutes, phep_nam.
+- **Bảng chấm công ngoài hệ thống**: file Excel theo mẫu để chạy kiểm tra 13 tiêu chí.
+
+## Biên dữ liệu (output)
+- **Excel cấu hình tháng**: thông tin tháng, phòng ban, ca làm, loại nghỉ, nhóm đặc thù, quy tắc, danh sách nhân viên.
+- **Excel bảng chấm công hoàn thiện**: ký hiệu + giờ vào/ra, trạng thái kiểm tra.
+- **Excel báo cáo kiểm tra**: tóm tắt + chi tiết vi phạm.
+
+## Observation / Inference / Decision
+- **Observation**: Tài liệu và code đều dựa trên dữ liệu Excel làm input chính.
+- **Inference**: Data boundary rõ ràng giúp phân tách trách nhiệm giữa hệ thống và nguồn ngoài.
+- **Decision**: Lưu glossary + boundary ở tầng domain để tái sử dụng trong các note module/rule.

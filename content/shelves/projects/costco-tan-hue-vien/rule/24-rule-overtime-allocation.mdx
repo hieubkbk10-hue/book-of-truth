@@ -1,0 +1,36 @@
+---
+title: Rule phân bổ tăng ca (OT)
+summary: Ngưỡng OT tối thiểu và cách phân bổ OT theo code hiện tại.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 24
+tags: [rule, overtime]
+keywords: [ot, overtime, 60 phut, 12 gio]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Spec rule
+- Nếu có OT thì ≥ 60 phút/ngày.
+- OT giữa hai ngày nghỉ ≤ 12 giờ.
+- OT đồng đều trong phòng ban (chênh ≤ 30 phút/ngày).
+
+## Code evidence
+- `distribute_overtime_hours`: phân bổ OT ngẫu nhiên 1–4 giờ/ngày từ ngày 15 trở đi.
+- `process_attendance_distribution`: OT tăng checkout_time theo giờ chuẩn + OT + random_minutes.
+
+## Drift/Gap
+- Code không thể hiện rõ điều kiện OT giữa hai ngày nghỉ hoặc cân bằng OT trong phòng ban.
+- Ngưỡng OT theo ngày trong code dùng 1–4 giờ, không trực tiếp ràng buộc 60 phút.
+
+## Observation / Inference / Decision
+- **Observation**: Phân bổ OT trong code thiên về random có kiểm soát.
+- **Inference**: Rule OT spec chưa được phản ánh đầy đủ trong code.
+- **Decision**: Đưa vào traceability matrix + conflict note để xác định mức độ drift.

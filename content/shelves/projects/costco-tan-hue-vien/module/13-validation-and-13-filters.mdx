@@ -1,0 +1,42 @@
+---
+title: Module kiểm tra & 13 bộ lọc
+summary: Danh mục 13 bộ lọc kiểm tra vi phạm và mục tiêu xử lý sai lệch.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: module
+order: 13
+tags: [module, validation, filters]
+keywords: [13 bo loc, kiem tra, vi pham]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/rule/27-rule-consistency-reconciliation]
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: high
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Danh mục 13 bộ lọc
+1. Phòng ban/nhân viên không hợp lệ.
+2. Ngày làm liên tục > 6 ngày.
+3. Khoảng cách ngày nghỉ liên tháng > 6 ngày.
+4. Phân bổ ngày nghỉ không đồng đều (chênh > 1).
+5. PN sai vị trí (không ở cuối kỳ nghỉ).
+6. Chia ca không cân bằng (chênh > 1 người/ca/ngày).
+7. Đi trễ > 9 phút/ngày (spec).
+8. OT < 60 phút/ngày hoặc OT giữa 2 ngày nghỉ > 12 giờ.
+9. OT không đồng đều trong phòng ban (chênh > 30 phút/ngày).
+10. Nhóm đặc thù vượt 7 giờ/ngày.
+11. Giờ vào/ra không hợp lệ (giờ vào > giờ ra, thiếu giờ, ngoài khung ca ±2h).
+12. Ký hiệu chấm công không hợp lệ.
+13. Tổng hợp sai lệch (ngày công/OT/phút trễ không khớp).
+
+## Kết quả mong đợi
+- Phát hiện sai lệch rõ ràng theo từng tiêu chí.
+- Cho phép HR hiệu chỉnh trực tiếp rồi chạy lại cho đến khi không còn vi phạm.
+
+## Observation / Inference / Decision
+- **Observation**: Bộ lọc là lõi kiểm soát chất lượng bảng chấm công.
+- **Inference**: Mọi rule-note nên liên kết với filter tương ứng.
+- **Decision**: Bảng filter được giữ ở tầng module; chi tiết logic từng rule tách riêng.

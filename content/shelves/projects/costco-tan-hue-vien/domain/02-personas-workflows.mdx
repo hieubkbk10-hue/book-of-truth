@@ -1,0 +1,43 @@
+---
+title: Personas & workflow nghiệp vụ
+summary: Vai trò người dùng và luồng xử lý chính/phụ trong nghiệp vụ chấm công tháng.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: domain
+order: 2
+tags: [domain, personas, workflow]
+keywords: [hr, quan ly, quy trinh, check cong]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/11-month-configuration]
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: high
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Vai trò người dùng
+- **Nhân viên HR (chính)**: cấu hình tháng, import dữ liệu, chạy phân bổ, kiểm tra, hiệu chỉnh, xuất báo cáo.
+- **Quản lý HR**: xem kết quả, phê duyệt bảng chấm công, nhận báo cáo kiểm tra.
+- **Quản trị hệ thống**: cài đặt, backup dữ liệu, cập nhật phần mềm.
+
+## Workflow chính (tạo bảng chấm công mới)
+1. HR tạo hoặc sao chép cấu hình tháng.
+2. Import danh sách nhân viên + dữ liệu chấm công thô (Excel).
+3. Hệ thống phân bổ tự động theo 4 giai đoạn.
+4. HR chạy 13 bộ lọc kiểm tra.
+5. HR chỉnh sửa trực tiếp trên grid.
+6. Chạy lại bộ lọc để đạt 0 vi phạm.
+7. Xuất Excel bảng chấm công hoàn chỉnh.
+
+## Workflow phụ (kiểm tra bảng ngoài hệ thống)
+1. HR chọn tháng cần kiểm tra.
+2. Import bảng chấm công ngoài hệ thống.
+3. Hệ thống chạy 13 bộ lọc kiểm tra.
+4. Xuất báo cáo kiểm tra (tóm tắt + chi tiết).
+
+## Observation / Inference / Decision
+- **Observation**: Workflow tài liệu nhấn mạnh khả năng kiểm tra + hiệu chỉnh trực tiếp trên phần mềm (không Excel roundtrip).
+- **Inference**: Hệ thống cần UX hỗ trợ thao tác hàng loạt, undo/redo và trạng thái filter rõ ràng.
+- **Decision**: Workflow được dùng làm sườn cho các note module và rule.

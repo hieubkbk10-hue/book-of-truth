@@ -1,0 +1,34 @@
+---
+title: Rule phân bổ ca làm
+summary: Quy tắc chia ca cân bằng và lịch giờ vào/ra theo phòng ban.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 22
+tags: [rule, shift]
+keywords: [chia ca, phong ban, gio vao ra]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Spec rule
+- Các ca trong cùng phòng ban phải cân bằng số lượng nhân viên (chênh ≤ 1).
+- Mỗi phòng ban có ít nhất một ca mặc định.
+
+## Code evidence
+- `DEPARTMENT_TIMES` định nghĩa khung giờ vào/ra theo phòng ban (Cửa Hàng 1/2, Nhà Hàng 1/2, Bảo Vệ 1/2, Kế Toán).
+- Trong `process_attendance_distribution`, với phòng ban Cửa Hàng/Nhà Hàng/Bảo Vệ, chọn ngẫu nhiên ca 1 hoặc 2 để set giờ vào/ra.
+
+## Drift/Gap
+- Code hiện phân ca ngẫu nhiên theo phòng ban, chưa thấy logic cân bằng số lượng nhân viên giữa ca.
+
+## Observation / Inference / Decision
+- **Observation**: Spec nhấn mạnh cân bằng nhân sự giữa ca; code mới chọn ca ngẫu nhiên.
+- **Inference**: Cần xác định liệu cân bằng ca nằm ở module khác hoặc chưa implement.
+- **Decision**: Ghi nhận drift trong note conflict tổng hợp.

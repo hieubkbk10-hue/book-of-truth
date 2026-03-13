@@ -1,0 +1,43 @@
+---
+title: Module import/export & data contracts
+summary: Cấu trúc dữ liệu import Excel và các gói xuất Excel của hệ thống.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: module
+order: 14
+tags: [module, import, export, data]
+keywords: [excel, import nhan vien, export bang cham cong]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/domain/03-glossary-data-boundary]
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: high
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Import danh sách nhân viên (Excel)
+Các cột chính: employee_code, employee_name, department, group_code, group_code_end_date, workdays, Day_1…Day_31, overtime_hours, late_minutes, phep_nam.
+
+### Quy tắc validate
+- Mã NV trùng → dừng import, báo lỗi.
+- Phòng ban không tồn tại → cảnh báo, vẫn import.
+- group_code có nhưng group_code_end_date rỗng → lỗi.
+- Ký hiệu ngày không hợp lệ → cảnh báo.
+- workdays ≤ 0 hoặc overtime_hours/late_minutes < 0 → lỗi.
+
+## Export cấu hình tháng
+Xuất Excel gồm các sheet: thông tin tháng, phòng ban, ca làm, loại nghỉ, nhóm đặc thù, quy tắc phân bổ, danh sách nhân viên.
+
+## Export bảng chấm công
+- Xuất Excel bảng chấm công hoàn thiện, giữ màu trạng thái.
+- Có sheet danh sách vi phạm còn tồn.
+
+## Export báo cáo kiểm tra
+- Tóm tắt + chi tiết vi phạm từ 13 bộ lọc.
+
+## Observation / Inference / Decision
+- **Observation**: Hệ thống phụ thuộc mạnh vào Excel làm giao diện dữ liệu.
+- **Inference**: Data contract cần ổn định, đổi cột sẽ ảnh hưởng trực tiếp import.
+- **Decision**: Đặt note này ở tầng module để làm reference cho các rule xử lý dữ liệu.

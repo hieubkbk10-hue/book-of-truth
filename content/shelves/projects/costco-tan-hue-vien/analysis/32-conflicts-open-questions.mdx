@@ -1,0 +1,55 @@
+---
+title: Conflicts & open questions
+summary: Tổng hợp các mâu thuẫn giữa tài liệu và code, cùng các câu hỏi cần xác nhận.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: analysis
+order: 32
+tags: [analysis, conflicts]
+keywords: [conflict, drift, open questions]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/analysis/31-spec-vs-code-traceability-matrix]
+conflicts_with: []
+superseded_by: null
+status: contested
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Mâu thuẫn chính
+1. **Copy cấu hình tháng – danh sách nhân viên**
+   - Spec (SRS + consolidated): không sao chép danh sách nhân viên.
+   - PM doc (bảng chức năng): có sao chép danh sách nhân viên.
+   - Cần quyết định nguồn chuẩn.
+
+2. **Ngưỡng đi trễ**
+   - Spec: ≤ 9 phút/ngày.
+   - Code: phân bổ 1–14 phút + cộng offset 15 phút.
+
+3. **OT tối thiểu/ngày**
+   - Spec: OT ≥ 60 phút/ngày nếu có OT.
+   - Code: phân bổ OT 1–4 giờ/ngày từ ngày 15.
+
+4. **Chia ca cân bằng**
+   - Spec: cân bằng số lượng nhân sự giữa ca.
+   - Code: chọn ca ngẫu nhiên theo phòng ban.
+
+5. **Khoảng cách nghỉ liên tháng & OT giữa 2 ngày nghỉ**
+   - Spec có quy tắc.
+   - Code chưa thấy xử lý rõ.
+
+6. **Naming nhóm đặc thù**
+   - Spec: U18/PREG/NURSG.
+   - Code: 18_DUOI_18/19A_CO_THAI/19_NUOI_CON_NHO.
+
+## Câu hỏi mở
+- Rule nào được ưu tiên khi spec và code mâu thuẫn?
+- Có cần cập nhật code để phản ánh chuẩn 9 phút/ngày không?
+- Có cần thêm logic cân bằng ca theo phòng ban không?
+- Khoảng cách nghỉ liên tháng đang được xử lý ở module nào khác?
+
+## Observation / Inference / Decision
+- **Observation**: Các mâu thuẫn ảnh hưởng trực tiếp đến thuật toán phân bổ.
+- **Inference**: Chưa thể chuẩn hóa rule nếu chưa có quyết định nguồn đúng.
+- **Decision**: Giữ status contested và yêu cầu xác nhận trước khi triển khai thay đổi.

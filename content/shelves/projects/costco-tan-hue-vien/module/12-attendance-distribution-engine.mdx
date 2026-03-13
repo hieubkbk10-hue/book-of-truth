@@ -1,0 +1,67 @@
+---
+title: Module phân bổ chấm công (engine)
+summary: Thuật toán phân bổ ngày công/ca/OT/đi trễ và sinh giờ vào/ra dựa trên quy tắc cấu hình.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: module
+order: 12
+tags: [module, algorithm, distribution]
+keywords: [phan bo, overtime, late minutes, checkin checkout]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/rule/24-rule-overtime-allocation]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Kiến trúc tổng thể (4 giai đoạn)
+1. **Phân bổ ngày công/ngày nghỉ**: đảm bảo không quá 6 ngày làm liên tục; PN sau ngày 15 trở đi.
+2. **Phân ca**: cân bằng nhân sự giữa các ca (spec); code hiện phân ca theo lịch/department schedule.
+3. **Phân bổ đi trễ/OT**: phân bổ ngẫu nhiên có kiểm soát theo ngưỡng.
+4. **Tạo giờ vào/ra**: dựa giờ chuẩn + trễ/OT thực tế.
+
+## Pseudo algorithm (code-derived)
+```
+input: day_1..day_31, actual_workdays, late_minutes, overtime_hours, department
+arrangements = process_data()  # sinh mảng thỏa: không >6 ngày liên tục, PN sau ngày 15
+if actual_workdays < 27: random_arrangement = generate_random_arrangement(...)
+else: random_arrangement = pick random from arrangements
+
+if department == "BỘ PHẬN KẾ TOÁN":
+  random_arrangement = generate_calendar_array(month, year, input_array)
+
+overtime_hours_array = distribute_overtime_hours(random_arrangement, overtime_hours)
+late_minutes_array = distribute_late_minutes(random_arrangement, late_minutes)
+
+for each day:
+  if working day (0):
+    pick schedule by department
+    checkin = random between IN range
+    checkout = random between OUT range
+    if overtime: checkout += overtime_hours + random minutes
+    if late: checkin += late_minutes + 15
+    if special group: checkout -= 1 hour
+  elif rest day (1): set 00:00
+  elif PN (2): set PN
+  else: map symbol (Ô, TS, DS, O, NL, OF, P)
+```
+
+## Các hàm/điểm logic chính (evidence)
+- `process_attendance_distribution`: sinh Excel output, điều phối toàn bộ quá trình.
+- `process_data`: sinh arrangement thỏa constraint (không 6 ngày 0 liên tục, PN sau ngày 15).
+- `generate_random_arrangement`: ràng buộc `ones`, `zeros`, `two_placed` theo input.
+- `distribute_overtime_hours`: phân bổ OT 1–4 giờ/ngày từ ngày 15.
+- `distribute_late_minutes`: phân bổ trễ tối đa 14 phút/ngày từ ngày 15.
+
+## Điểm cần lưu ý
+- **Ngưỡng trễ** trong code: ≤ 14 phút/ngày + cộng offset 15 phút vào giờ vào (khác với spec 9 phút).
+- **OT** trong code: phân bổ 1–4 giờ/ngày, chỉ từ ngày 15 trở đi.
+- **Nhóm đặc thù**: giảm 1 giờ làm (7 giờ/ngày) tại bước tạo checkout.
+
+## Observation / Inference / Decision
+- **Observation**: Code hiện ưu tiên logic phân bổ ngẫu nhiên có kiểm soát hơn các quy tắc mô tả chi tiết trong SRS.
+- **Inference**: Cần note rule-level để đối chiếu từng constraint và xác định drift.
+- **Decision**: Module này chỉ mô tả flow; chi tiết constraint tách sang các rule-note.

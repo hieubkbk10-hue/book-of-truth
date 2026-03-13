@@ -1,0 +1,56 @@
+---
+title: Rule cân bằng ngày công/ngày nghỉ
+summary: Giới hạn ngày làm liên tục, khoảng cách nghỉ liên tháng và phân bổ PN theo chuỗi nghỉ.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 21
+tags: [rule, workdays, restdays]
+keywords: [6 ngay lien tuc, pn, phan bo ngay nghi]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Tóm tắt nhanh
+- Không có chuỗi > 6 ngày làm liên tục.
+- PN ưu tiên đặt ở cuối chuỗi nghỉ (sau ngày 15 trong code).
+- Khoảng cách nghỉ liên tháng ≤ 6 ngày (spec).
+
+<MindmapViewer
+  data={{
+    nodeData: {
+      id: "root",
+      topic: "Workday/Rest balance",
+      children: [
+        { id: "limit", topic: "≤ 6 ngày liên tục" },
+        { id: "pn", topic: "PN ở cuối chuỗi nghỉ" },
+        { id: "month-gap", topic: "Khoảng cách nghỉ liên tháng" },
+      ],
+    },
+    direction: 2,
+  }}
+/>
+
+## Spec rule
+- Sau tối đa 6 ngày làm liên tiếp phải có ít nhất 1 ngày nghỉ.
+- Khoảng cách giữa ngày nghỉ cuối tháng trước và ngày nghỉ đầu tháng hiện tại ≤ 6 ngày.
+- PN đặt ở cuối kỳ nghỉ.
+
+## Code evidence
+- `process_data`: sinh arrangement với constraint `last_zeros < 6` (không 6 ngày làm liên tục).
+- `process_data`: PN (value 2) chỉ đặt khi `pos >= 14` (sau ngày 15).
+- `generate_random_arrangement`: tái dùng constraint tương tự khi input cố định.
+
+## Drift/Gap
+- Spec có rule khoảng cách nghỉ liên tháng; code hiện không thấy xử lý dữ liệu tháng trước.
+
+## Observation / Inference / Decision
+- **Observation**: Code tập trung vào constraint nội tháng và PN sau ngày 15.
+- **Inference**: Rule liên tháng có thể cần bổ sung hoặc nằm ở module khác.
+- **Decision**: Đánh dấu rule ở trạng thái evolving để theo dõi thêm evidence.

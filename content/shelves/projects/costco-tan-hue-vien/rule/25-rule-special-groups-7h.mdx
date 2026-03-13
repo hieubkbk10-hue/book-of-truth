@@ -1,0 +1,37 @@
+---
+title: Rule nhóm đặc thù ≤ 7 giờ/ngày
+summary: Quy định nhóm U18/PREG/NURSG và mapping code thực tế trong Odoo.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 25
+tags: [rule, special-group]
+keywords: [u18, preg, nursg, 7 gio]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: contested
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Spec rule
+- Nhóm đặc thù (U18, PREG, NURSG) giới hạn 7 giờ/ngày.
+- Cần ngày hết hiệu lực khi gán nhóm.
+
+## Code evidence
+- `employee.employee_group_ids.code` kiểm tra các mã:
+  - `18_DUOI_18`
+  - `19A_CO_THAI`
+  - `19_NUOI_CON_NHO`
+- Khi thuộc nhóm đặc thù, checkout_time giảm 1 giờ.
+
+## Drift/Gap
+- Naming group trong code khác naming trong tài liệu (U18/PREG/NURSG).
+
+## Observation / Inference / Decision
+- **Observation**: Code có logic giảm 1 giờ làm cho nhóm đặc thù.
+- **Inference**: Cần mapping rõ giữa mã nhóm spec và mã nhóm thực tế.
+- **Decision**: Đánh dấu `contested` và đưa mapping vào note conflict.

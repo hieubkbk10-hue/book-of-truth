@@ -1,0 +1,30 @@
+---
+title: Rule đối soát tổng hợp (consistency)
+summary: Đối chiếu tổng ngày công/OT/phút trễ với dữ liệu chi tiết theo ngày.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 27
+tags: [rule, consistency]
+keywords: [tong hop, doi soat, ngay cong, ot, late]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/13-validation-and-13-filters]
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Spec rule
+- Tổng ngày công/OT/phút trễ phải khớp dữ liệu chi tiết theo ngày.
+- Bộ lọc BL-13 dùng để phát hiện sai lệch tổng hợp.
+
+## Code evidence
+- `process_attendance_distribution` so sánh `workdays` thực tế với `line.actual_workdays` và highlight cảnh báo khi lệch.
+
+## Observation / Inference / Decision
+- **Observation**: Code có bước kiểm tra chênh lệch ngày công ở cuối mỗi dòng.
+- **Inference**: Đây là mức kiểm tra tối thiểu; các tổng khác (OT/late) cần xác nhận thêm.
+- **Decision**: Giữ rule ở trạng thái stable nhưng ghi nhận gap về các tổng khác.

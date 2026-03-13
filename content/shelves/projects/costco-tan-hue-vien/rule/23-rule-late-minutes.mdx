@@ -1,0 +1,33 @@
+---
+title: Rule đi trễ (late minutes)
+summary: Ngưỡng đi trễ theo ngày và cách phân bổ phút trễ trong code.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 23
+tags: [rule, late]
+keywords: [di tre, late minutes, 9 phut]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: contested
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Spec rule
+- Không có ngày nào trễ > 9 phút/ngày.
+
+## Code evidence
+- `distribute_late_minutes`: phân bổ ngẫu nhiên 1–14 phút/ngày, từ ngày 15 trở đi.
+- `process_attendance_distribution`: khi có late_minutes, check-in = giờ chuẩn + late_minutes + 15.
+
+## Drift/Gap
+- Spec 9 phút/ngày nhưng code phân bổ tối đa 14 phút và cộng thêm offset 15 phút.
+
+## Observation / Inference / Decision
+- **Observation**: Có chênh lệch rõ giữa ngưỡng spec và code.
+- **Inference**: Rule này cần xác nhận lại chủ trương (spec hay implementation là nguồn đúng).
+- **Decision**: Đánh dấu `contested` và ghi vào note conflict tổng hợp.

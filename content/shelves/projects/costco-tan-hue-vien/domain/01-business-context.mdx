@@ -1,0 +1,72 @@
+---
+title: Bối cảnh nghiệp vụ & mục tiêu hệ thống
+summary: Bức tranh nghiệp vụ chấm công theo tháng, mục tiêu cốt lõi, phạm vi và ràng buộc triển khai cho dự án COSTCO.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: domain
+order: 1
+tags: [domain, hr, attendance, desktop]
+keywords: [muc tieu, pham vi, boi canh, costco]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/domain/02-personas-workflows]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: high
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Tóm tắt nhanh
+- COSTCO là phần mềm desktop phục vụ phân bổ & kiểm tra chấm công theo tháng cho Tân Huê Viên.
+- Mục tiêu: xử lý dữ liệu lớn như Excel, tự động hóa phân bổ, kiểm tra chính xác và hiệu chỉnh nhanh.
+- Phạm vi tập trung vào cấu hình tháng, import dữ liệu, phân bổ, kiểm tra 13 tiêu chí, và xuất Excel.
+- Ngoài phạm vi: tính lương, quản lý hợp đồng, điều khiển thiết bị chấm công, cloud/internet.
+
+<MindmapViewer
+  data={{
+    nodeData: {
+      id: "root",
+      topic: "Bối cảnh nghiệp vụ",
+      children: [
+        { id: "goal", topic: "Mục tiêu", children: [
+          { id: "goal-1", topic: "Xử lý dữ liệu lớn" },
+          { id: "goal-2", topic: "Tự động phân bổ" },
+          { id: "goal-3", topic: "Kiểm tra chính xác" },
+        ] },
+        { id: "scope", topic: "Phạm vi", children: [
+          { id: "scope-in", topic: "Cấu hình tháng, phân bổ, 13 bộ lọc" },
+          { id: "scope-out", topic: "Không tính lương, không cloud" },
+        ] },
+        { id: "constraint", topic: "Ràng buộc", children: [
+          { id: "constraint-1", topic: "Desktop Windows" },
+          { id: "constraint-2", topic: "Dữ liệu lưu cục bộ" },
+        ] },
+      ],
+    },
+    direction: 2,
+  }}
+/>
+
+## Ý chính
+Hệ thống COSTCO phục vụ quy trình phân bổ và kiểm tra chấm công theo tháng, tối ưu cho dữ liệu lớn và thao tác trực tiếp như Excel, phù hợp với môi trường HR nội bộ của Tân Huê Viên.
+
+## Mục tiêu cốt lõi
+1. **Xử lý dữ liệu lớn**: bảng chấm công hàng trăm–nghìn nhân viên, hiệu năng tương đương Excel.
+2. **Tự động hóa phân bổ**: tạo bảng chấm công dự thảo dựa trên quy tắc cấu hình sẵn.
+3. **Kiểm tra chính xác**: bộ lọc 13 tiêu chí giúp phát hiện sai lệch và hiệu chỉnh nhanh.
+
+## Phạm vi
+**Trong phạm vi**: cấu hình tháng; import danh sách nhân viên + dữ liệu chấm công thô; phân bổ tự động theo 4 giai đoạn; 13 bộ lọc kiểm tra; chỉnh sửa trực tiếp; xuất Excel cấu hình/bảng chấm công/báo cáo; kiểm tra bảng ngoài hệ thống.
+
+**Ngoài phạm vi**: tính lương tự động; quản lý hợp đồng; điều khiển thiết bị chấm công; kết nối cloud/internet.
+
+## Ràng buộc vận hành
+- Desktop Application trên Windows 10/11, cài đặt local.
+- Dữ liệu lưu cục bộ (không Internet).
+- Mỗi tháng là đơn vị dữ liệu độc lập, cấu hình riêng.
+
+## Observation / Inference / Decision
+- **Observation**: Tài liệu mô tả và SRS cùng xác nhận mục tiêu hiệu năng và tự động hóa phân bổ.
+- **Inference**: Thiết kế UX cần ưu tiên grid lớn, thao tác trực tiếp, rollback nhanh.
+- **Decision**: Bối cảnh domain được mô tả ở mức “process-first” để làm nền cho các note module/rule.

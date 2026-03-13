@@ -1,0 +1,56 @@
+---
+title: Traceability matrix (Spec vs Code)
+summary: Bảng đối chiếu quy tắc giữa tài liệu SRS và code thực tế.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: analysis
+order: 31
+tags: [analysis, traceability]
+keywords: [spec vs code, matrix, drift]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/analysis/32-conflicts-open-questions]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Tóm tắt nhanh
+- Matrix này giúp định vị nhanh rule nào đang aligned, rule nào drift/unknown.
+- Mọi drift sẽ được tách sang note conflict.
+
+<MindmapViewer
+  data={{
+    nodeData: {
+      id: "root",
+      topic: "Traceability",
+      children: [
+        { id: "aligned", topic: "Aligned" },
+        { id: "drift", topic: "Drift" },
+        { id: "unknown", topic: "Unknown" },
+      ],
+    },
+    direction: 2,
+  }}
+/>
+
+## Matrix đối chiếu
+| Rule | Spec source | Code source | Status |
+|---|---|---|---|
+| Ngày làm liên tục ≤ 6 | SRS BR-01 | `process_data` (last_zeros < 6) | Aligned |
+| PN ở cuối chuỗi nghỉ | SRS BR-04 | `process_data` (pos >= 14) | Partial |
+| Khoảng cách nghỉ liên tháng ≤ 6 | SRS BR-02 | Không thấy trong code | Unknown |
+| Chia ca cân bằng | SRS BR-05 | Chọn ca ngẫu nhiên theo phòng ban | Drift |
+| Đi trễ ≤ 9 phút/ngày | SRS BR-06 | `distribute_late_minutes` (1–14) + offset 15 | Drift |
+| OT ≥ 60 phút/ngày | SRS BR-07 | `distribute_overtime_hours` (1–4 giờ) | Drift |
+| OT giữa 2 ngày nghỉ ≤ 12 giờ | SRS BR-09 | Không thấy trong code | Unknown |
+| Nhóm đặc thù ≤ 7h/ngày | SRS BR-10 | Giảm 1 giờ checkout | Aligned |
+| Ký hiệu hợp lệ | SRS FR-05/BL-12 | Mapping ký hiệu khi xuất Excel | Partial |
+| Tổng hợp sai lệch | SRS BL-13 | So sánh workdays vs actual_workdays | Partial |
+
+## Observation / Inference / Decision
+- **Observation**: Nhiều rule có drift/unknown, nhất là đi trễ, OT và cân bằng ca.
+- **Inference**: Cần xác nhận spec hay code là nguồn chuẩn cho từng rule.
+- **Decision**: Matrix là nguồn tham chiếu chính cho note conflict.

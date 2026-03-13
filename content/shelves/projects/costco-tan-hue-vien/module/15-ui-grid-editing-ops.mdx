@@ -1,0 +1,37 @@
+---
+title: UI grid & thao tác hiệu chỉnh
+summary: Yêu cầu hiển thị bảng chấm công dạng grid và thao tác chỉnh sửa trực tiếp.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: module
+order: 15
+tags: [module, ui, grid]
+keywords: [grid, freeze cot, undo redo, colored cell]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/13-validation-and-13-filters]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Yêu cầu hiển thị
+- Grid tương tự Excel, cuộn mượt, hỗ trợ hàng trăm–nghìn nhân viên.
+- Freeze cột trái: mã NV, họ tên, phòng ban, ca, ngày công, phút trễ, giờ tăng ca.
+- Cột ngày hiển thị ký hiệu + giờ vào/ra (2 dòng).
+
+## Thao tác hiệu chỉnh
+- Chỉnh sửa trực tiếp ký hiệu/giờ ngay trên grid.
+- Hỗ trợ undo/redo ≥ 30 bước (spec).
+- Audit log thay đổi (ai/khi nào/giá trị cũ-mới).
+
+## Evidence từ code (Odoo UI)
+- View form/tree trong `hr_monthly_attendance_distribution_view.xml` hiển thị `day_1..day_31`, `actual_workdays`, `late_minutes`, `overtime_hours`.
+- Widget `colored_cell_widget.js` tô màu theo giá trị (X, A, H) cho ô ký hiệu.
+
+## Observation / Inference / Decision
+- **Observation**: UI code hiện dùng tree editable trong Odoo, chưa phản ánh toàn bộ UX yêu cầu giống Excel.
+- **Inference**: Cần xác định gap giữa yêu cầu UI và khả năng hiển thị hiện tại.
+- **Decision**: Note này mô tả yêu cầu + evidence UI hiện hữu để phục vụ roadmap.

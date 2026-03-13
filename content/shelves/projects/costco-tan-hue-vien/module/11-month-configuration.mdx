@@ -1,0 +1,57 @@
+---
+title: Module cấu hình tháng
+summary: Cấu hình phòng ban, ca làm, loại nghỉ, nhóm đặc thù và quy tắc phân bổ theo từng tháng.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: module
+order: 11
+tags: [module, configuration]
+keywords: [phong ban, ca lam, loai nghi, nhom dac thu, sao chep thang]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/rule/21-rule-workday-rest-balance]
+conflicts_with: []
+superseded_by: null
+status: contested
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Tóm tắt nhanh
+- Mỗi tháng có cấu hình độc lập: phòng ban, ca làm, loại nghỉ, nhóm đặc thù, quy tắc phân bổ.
+- Hỗ trợ tạo mới hoặc sao chép cấu hình tháng liền kề.
+- Có conflict về việc sao chép danh sách nhân viên.
+
+<MindmapViewer
+  data={{
+    nodeData: {
+      id: "root",
+      topic: "Cấu hình tháng",
+      children: [
+        { id: "dept", topic: "Phòng ban" },
+        { id: "shift", topic: "Ca làm" },
+        { id: "leave", topic: "Loại nghỉ" },
+        { id: "group", topic: "Nhóm đặc thù" },
+        { id: "rules", topic: "Quy tắc phân bổ" },
+      ],
+    },
+    direction: 2,
+  }}
+/>
+
+## Thành phần cấu hình
+- **Phòng ban**: thêm/sửa/vô hiệu hóa; không xóa vĩnh viễn.
+- **Ca làm việc**: shift_code, giờ vào/ra chuẩn, biên độ trễ/về sớm, ngưỡng OT, giờ làm tối đa/ngày, nghỉ trưa, phòng ban áp dụng.
+- **Loại nghỉ**: ký hiệu X, X/2, P, PN, Ô, TS, DS, O, NL, L, LP, LL, LN, H, B, OF (cho phép bổ sung).
+- **Nhóm đối tượng đặc thù**: giới hạn 7 giờ/ngày (tài liệu) và có mã nhóm trong code.
+- **Quy tắc phân bổ**: tham số hóa giới hạn ngày làm liên tục, OT, PN, phân ca.
+
+## Sao chép cấu hình tháng (contested)
+- **Spec**: sao chép phòng ban, ca, loại nghỉ, nhóm đặc thù, quy tắc; không sao chép danh sách nhân viên.
+- **PM doc (bảng chức năng)**: có đoạn nói sao chép danh sách nhân viên.
+- **Trạng thái**: cần xác nhận trước khi triển khai.
+
+## Observation / Inference / Decision
+- **Observation**: Quy tắc cấu hình tháng là nền cho toàn bộ thuật toán phân bổ và kiểm tra.
+- **Inference**: Conflict về danh sách nhân viên ảnh hưởng trực tiếp đến quy trình khởi tạo tháng.
+- **Decision**: Note giữ `status: contested` và dẫn tới note conflict riêng.

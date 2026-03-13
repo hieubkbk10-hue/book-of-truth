@@ -1,0 +1,38 @@
+---
+title: Kiến trúc module Odoo hiện tại
+summary: Cấu trúc module `hr_monthly_attendance_distribution` và các dependency liên quan.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: module
+order: 16
+tags: [module, odoo, architecture]
+keywords: [odoo, manifest, models, views]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/12-attendance-distribution-engine]
+conflicts_with: []
+superseded_by: null
+status: evolving
+confidence: medium
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Manifest chính
+- Module: `hr_monthly_attendance_distribution`
+- Depends: `hr_attendance`, `addons-thv`, `hr_employee_groups`.
+- Assets: `colored_cell_widget.js`.
+
+## Model chính
+- `hr.monthly.attendance.distribution`
+  - month, days_in_month, distribution_line_ids, attendance_file, excel_file.
+- `hr.monthly.attendance.distribution.line`
+  - employee_id, actual_workdays, late_minutes, overtime_hours, day_1..day_31.
+
+## Views
+- Form + tree view hiển thị danh sách phân bổ và dữ liệu theo ngày.
+- Action menu gắn vào HR attendance menu root.
+
+## Observation / Inference / Decision
+- **Observation**: Kiến trúc hiện tại là module Odoo độc lập, tập trung vào nhập dữ liệu và xuất Excel.
+- **Inference**: Bất kỳ mở rộng nào cần xem tương tác với `hr_employee_groups` và `addons-thv`.
+- **Decision**: Note này làm nền kiến trúc cho việc đối chiếu rule và data model.

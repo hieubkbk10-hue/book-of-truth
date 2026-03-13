@@ -1,0 +1,30 @@
+---
+title: Rule kiểm tra ký hiệu chấm công
+summary: Danh mục ký hiệu hợp lệ và yêu cầu cảnh báo khi nhập sai.
+shelf: projects
+book: costco-tan-hue-vien
+chapter: rule
+order: 26
+tags: [rule, symbols]
+keywords: [ky hieu, cham cong, validation]
+prerequisites: []
+related: [projects/costco-tan-hue-vien/module/13-validation-and-13-filters]
+conflicts_with: []
+superseded_by: null
+status: stable
+confidence: high
+source_type: synthesized
+updated_at: 2026-03-13
+---
+
+## Danh mục ký hiệu
+X, X/2, P, PN, Ô, TS, DS, O, NL, L, LP, LL, LN, H, B, OF.
+
+## Quy tắc
+- Khi import hoặc nhập tay, ký hiệu ngoài danh mục phải bị cảnh báo.
+- Bộ lọc BL-12 dùng để phát hiện ký hiệu không hợp lệ.
+
+## Observation / Inference / Decision
+- **Observation**: Danh mục ký hiệu là nền cho hầu hết rule khác.
+- **Inference**: Mọi thay đổi ký hiệu cần cập nhật rule validation + UI.
+- **Decision**: Ký hiệu được giữ ở rule riêng để dễ quản trị thay đổi.
